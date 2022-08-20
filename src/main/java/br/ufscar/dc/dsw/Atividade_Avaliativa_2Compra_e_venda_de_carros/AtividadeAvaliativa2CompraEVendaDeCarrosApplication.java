@@ -9,5 +9,4 @@ public class AtividadeAvaliativa2CompraEVendaDeCarrosApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AtividadeAvaliativa2CompraEVendaDeCarrosApplication.class, args);
 	}
-
 }
