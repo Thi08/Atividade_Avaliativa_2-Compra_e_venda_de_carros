@@ -41,9 +41,6 @@ public class Store {
         return cnpj;
     }
 
-    public Store() {
-    }
-
     public void setCnpj(String cnpj) {
         this.cnpj = cnpj;
     }

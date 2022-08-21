@@ -39,7 +39,7 @@
                 <!-- <th:set var="loja" value="${requestScope.loja}" />
                 <th:set var="usuario" value="${requestScope.usuario}" /> -->
 
-                <form th:object="${veiculo}" class="formulario_de_loja" method="post" action="/veiculos">
+                <form th:object="${veiculo}" class="formulario_de_loja" method="post" th:action="@{/veiculos/{veiculoId}/(veiculoId = ${veiculo.id})}">
                     <fieldset>
                         <legend>Cadastro de veículos</legend>
 
@@ -89,7 +89,7 @@
                         </label>
 
                         <button type="submit" id="botao">
-                            Cadastrar
+                            Salvar
                     </fieldset>
                     </button>
                 </form>

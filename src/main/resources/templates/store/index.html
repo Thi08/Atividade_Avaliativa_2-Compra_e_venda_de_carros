@@ -1,0 +1,70 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UFT-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Veiculos</title>
+  </head>
+
+  <style>
+    table,
+    th,
+    td {
+      border: 1px solid black;
+      margin: auto;
+    }
+  </style>
+
+  <body>
+    <div>
+      <span th:text="${param.mensagem != null ? param.mensagem : ''}"
+        >MENSAGEM ERRO</span
+      >
+    </div>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Placa</th>
+            <th>Ano</th>
+            <th>Quilometragem</th>
+            <th>Valor</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="veiculo : ${veiculos}">
+            <th scope="row" th:text="${veiculo.getId()}">ID</th>
+            <td th:text="${veiculo.placa}">Placa</td>
+            <td th:text="${veiculo.ano}">Ano</td>
+            <td th:text="${veiculo.quilometragem}">Quilometragem</td>
+            <td th:text="${veiculo.valor}">Valor</td>
+            <td>
+              <a th:href="@{/veiculos/{veiculoId}(veiculoId = ${veiculo.id})}"
+                >Propostas</a
+              >
+            </td>
+            <td>
+              <a
+                th:href="@{/veiculos/{veiculoId}/editar(veiculoId = ${veiculo.id})}"
+                >Editar</a
+              >
+            </td>
+            <td>
+              <a
+                th:href="@{/veiculos/{veiculoId}/excluir(veiculoId = ${veiculo.id})}"
+                >Excluir</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div>
+        <a href="/veiculos/cadastrar">Adicionar Veiculo</a>
+      </div>
+    </div>
+  </body>
+</html>
