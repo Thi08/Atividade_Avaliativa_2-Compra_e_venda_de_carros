@@ -1,0 +1,48 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UFT-8">
+    <title>Edição de lojas</title>
+    <link rel="stylesheet" th:href="@{/css/form.css}">
+</head>
+
+<body>
+
+    <div th:if="${error}" th:replace="~{fragmentos::errors(${error})}"></div>
+
+    <form class="forms" method="POST" th:action="@{/admin/loja/{lojaId} (lojaId = ${loja.id})}" th:object="${store}">
+        <fieldset>
+            <legend>Edição de lojas</legend>
+
+            <label>E-mail
+                <input id="email" type="email" name="email" placeholder="email@email.com" th:value="${loja.email}" />
+            </label>
+
+            <label>Senha
+                <input id="senha" type="password" name="senha" th:value="${loja.senha}" />
+            </label>
+
+            <label>CNPJ
+                <input id="cnpj" type="text" name="cnpj" placeholder="XX.XXX.XXX/0001-XX" maxlength="14"
+                    onkeypress="if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;"
+                    th:value="${loja.cnpj}">
+            </label>
+
+            <label>Nome
+                <input id="nome" type="text" name="nome" th:value="${loja.nome}">
+            </label>
+
+            <label>
+                <textarea id="descricao" name="descricao" rows="7" cols="34" placeholder="Digite a descrição da loja"
+                    th:text="${loja.descricao}"></textarea>
+            </label>
+
+            <button type="submit" id="botao">
+                Editar
+        </fieldset>
+        </button>
+    </form>
+</body>
+
+</html>

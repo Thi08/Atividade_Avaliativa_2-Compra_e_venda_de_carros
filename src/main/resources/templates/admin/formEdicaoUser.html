@@ -1,0 +1,69 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UFT-8">
+    <title>Edição de usuários</title>
+    <link rel="stylesheet" th:href="@{/css/form.css}">
+</head>
+
+<body>
+
+    <div class="errosContainer">
+        <p th:if="${error}" th:text="${error}"></p>
+    </div>
+
+    <form class="forms" method="POST" th:action="@{/admin/user/{userId} (userId = ${user.id})}" th:object="${user}">
+        <fieldset>
+            <legend>Edição do usuário</legend>
+
+            <label>E-mail
+                <input required id="email" type="email" th:field="*{email}" placeholder="email@email.com" />
+            </label>
+
+            <label>Senha
+                <input required id="senha" type="password" th:field="*{senha}" th:value="${user.senha}" />
+            </label>
+
+            <label>CPF
+                <input required id="cpf" type="text" th:field="*{cpf}" placeholder="XXXXXXXXX-XX" maxlength="11"
+                    onkeypress="if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+            </label>
+
+            <label>Nome
+                <input required id="nome" type="text" th:field="*{nome}">
+            </label>
+
+            <label>Telefone
+                <input required id="telefone" type="tel" th:field="*{telefone}" placeholder="(XX)XXXXX-XXXX"
+                    maxlength="11"
+                    onkeypress="if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+            </label>
+
+            <label>Sexo
+                <select required id="sexo" th:field="*{sexo}">
+                    <option value="M">Masculino</option>
+                    <option value="F">Feminino</option>
+                </select>
+            </label>
+
+            <label>Data de Nascimento
+                <input required id="nascimento" type="date" th:field="*{dataNasc}">
+            </label>
+
+            <label>
+                Tipo
+                <select required id="tipo" th:field="*{tipo}">
+                    <option value="USER">Usuário</option>
+                    <option value="ADMIN">Administrador</option>
+                </select>
+            </label>
+
+            <button type="submit" id="botao">
+                Editar
+        </fieldset>
+        </button>
+    </form>
+</body>
+
+</html>

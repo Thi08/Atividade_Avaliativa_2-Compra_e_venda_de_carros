@@ -1,0 +1,74 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Painel administrativo</title>
+</head>
+
+<body>
+    <div class="ferramentas de criacao">
+        <a href="/admin/user">Criar usuários</a>
+        <a href="/admin/loja">Criar lojas</a>
+    </div>
+
+    <div th:if="${users.size() > 0}">
+        <h3>Usuários:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>CPF</th>
+                    <th>Tipo de usuário</th>
+                    <th>Gênero</th>
+                    <th colspan="2">Opções</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.nome}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.cpf}"></td>
+                    <td th:text="${user.tipo}"></td>
+                    <td th:text="${user.sexo}"></td>
+                    <td> <a th:href="@{/admin/user/{userId} (userId = ${user.id})}">Editar usuário</a> </td>
+                    <td> <a th:href="@{/admin/user/delete/{userId} (userId = ${user.id})}">Remover usuário</a> </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${stores.size() > 0}">
+        <h3>Lojas:</h3>
+        <table th:if="${stores.size() > 0}">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>CNPJ</th>
+                    <th>Descrição</th>
+                    <th colspan="2">Opções</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="loja : ${stores}">
+                    <td th:text="${loja.id}"></td>
+                    <td th:text="${loja.nome}"></td>
+                    <td th:text="${loja.email}"></td>
+                    <td th:text="${loja.cnpj}"></td>
+                    <td th:text="${loja.descricao}"></td>
+                    <td> <a th:href="@{/admin/loja/{lojaId} (lojaId = ${loja.id})}">Editar loja</a> </td>
+                    <td> <a th:href="@{/admin/loja/delete/{lojaId} (lojaId = ${loja.id})}">Remover loja</a> </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</body>
+
+</html>

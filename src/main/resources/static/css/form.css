@@ -1,0 +1,32 @@
+legend {
+    width: 80%;
+    text-align: center;
+}
+
+
+.forms {
+    font-style: oblique;
+    font-size: 45px;
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    padding-top: 5%;
+}
+
+label {
+    display: block;
+    margin-bottom: 15px;
+}
+
+#sexo {
+    font-size: 18px;
+}
+
+#nascimento {
+    font-size: 18px;
+}
+
+#botao {
+    margin-left: 35%;
+    font-size: 20px;
+}
