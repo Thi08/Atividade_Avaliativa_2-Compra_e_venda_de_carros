@@ -1,0 +1,41 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html
+  lang="pt-BR"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Propostas</title>
+  </head>
+  <body>
+    <div>
+      <div>
+        <div>
+          <b>Placa:</b> <span th:text="${veiculo.placa}"></span><br />
+          <b>Modelo:</b> <span th:text="${veiculo.modelo}"></span><br />
+          <b>Chassi:</b> <span th:text="${veiculo.chassi}"></span><br />
+          <b>Ano:</b> <span th:text="${veiculo.ano}"></span><br />
+          <b>Quilometragem:</b> <span th:text="${veiculo.quilometragem}"></span
+          ><br />
+          <b>Valor do Veiculo:</b> <span th:text="${veiculo.valor}"></span
+          ><br />
+          <b>Descrição:</b> <span th:text="${veiculo.descricao}"></span
+          ><br /><br />
+          <b>Valor da Proposta:</b> <span text=""></span><br />
+        </div>
+      </div>
+      <div>
+        <div>
+          <a href="#">Aceitar</a>
+          <a href="#">Recusar</a>
+          <br /><br />
+
+          <a href="/veiculos">Voltar</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

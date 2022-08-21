@@ -2,13 +2,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Hello!</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" th:href="@{/css/indexStyle.css}">
+  <title>Leilão de veículos</title>
 </head>
 
 <body>
-    Teste
-    <h4><span th:text="${date}">18/08/2022</span></h4>
+
+  <div class="header">
+    Leilão de veículos do Bruno - Seja bem vindo! <span th:text="${user}"></span>
+    <button>Login</button>
+  </div>
+
+  Teste
+  <h4><span th:text="${date}">18/08/2022</span></h4>
 </body>
 
 </html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+            <html lang="pt-BR"
+            xmlns="http://www.w3.org/1999/xhtml"
+            xmlns:th="http://www.thymeleaf.org">
+            <head>
+                <meta charset="UFT-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                
+                <title>Cadastro de veículos</title>
+                <!-- <link rel="stylesheet" type="text/css" href="formCadastroVeiculo.css"> -->
+                <style type="text/css">
+                    legend {
+                        width: 70%;
+                        text-align: center;
+                    }
+
+                    .formulario_de_loja {
+                        font-style: oblique;
+                        font-size: 45px;
+                        display: flex;
+                        margin: 0 auto;
+                        justify-content: center;
+                        padding-top: 5%;
+                    }
+
+                    label {
+                        display: block;
+                        margin-bottom: 15px;
+                    }
+
+                    #botao {
+                        margin-left: 35%;
+                        font-size: 20px;
+                    }
+                </style>
+            </head>
+
+            <body>
+                <!-- <th:set var="loja" value="${requestScope.loja}" />
+                <th:set var="usuario" value="${requestScope.usuario}" /> -->
+
+                <form th:object="${veiculo}" class="formulario_de_loja" method="post" action="/veiculos">
+                    <fieldset>
+                        <legend>Cadastro de veículos</legend>
+
+                        <label>CNPJ
+                            <input disabled id="cnpj" type="text" name="cnpj" placeholder="XX.XXX.XXX/0001-XX"
+                                maxlength="14" value="${store.getCnpj()}"
+                                onkeypress="if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+                        </label>
+
+                        <label>Placa
+                            <input id="placa" type="text" th:field="*{placa}" th:errorclass="is-invalid" />
+                        </label>
+
+                        <!-- Ainda não tratei os erros -->
+                        <div>
+                            <span th:error="*{placa}"></span>
+                        </div>
+
+                        <label>Modelo
+                            <input id="modelo" type="text" th:field="*{modelo}">
+                        </label>
+
+                        <label>Chassi
+                            <input id="chassi" type="text" th:field="*{chassi}" />
+                        </label>
+
+                        <label>Ano
+                            <input id="ano" type="number" th:field="*{ano}" min="1950" max="2022" />
+                        </label>
+
+                        <label>Quilometragem
+                            <input id="quilometragem" type="number" th:field="*{quilometragem}">
+                        </label>
+
+                        <label>
+                            <textarea id="descricao" th:field="*{descricao}" rows="7" cols="40"
+                                placeholder="Digite a descrição do veículo"></textarea>
+                        </label>
+
+                        <label>Valor
+                            <input id="valor" type="number" th:field="*{valor}" placeholder="20000,00"
+                                onkeypress="if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
+                        </label>
+
+                        <label>
+                            <input id="fotos" type="file" th:field="*{fotos}" multiple accept="image/*">
+                        </label>
+
+                        <button type="submit" id="botao">
+                            Cadastrar
+                    </fieldset>
+                    </button>
+                </form>
+            </body>
+
+            </html>
