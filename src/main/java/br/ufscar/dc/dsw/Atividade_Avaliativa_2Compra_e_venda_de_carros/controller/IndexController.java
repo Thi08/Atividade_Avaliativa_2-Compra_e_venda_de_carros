@@ -3,6 +3,8 @@ package br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.controll
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.IStoreDAO;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.IUserDAO;
-import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.Costumer;
-import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.UserType;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.User;
 
 @Controller
@@ -38,7 +38,28 @@ public class IndexController {
     }
 
     @PostMapping("/login")
-    public String login(User usuario, Model model) {
+    public String login(User usuario, Model model, HttpSession session) {
+        try {
+            User novoUsuario = this.userDAO.findByEmail(usuario.getEmail());
+            System.out.println(novoUsuario.getTipo());
+            session.setAttribute("user", novoUsuario);
+            switch (novoUsuario.getTipo()) {
+                case ADMIN:
+                    return "redirect:/admin/";
+                case USER:
+                    return "redirect:/user/";
+                case STORE:
+                    return "redirect:/store/";
+            }
+        } catch (Exception e) {
+            return "login";
+        }
         return "index";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.setAttribute("user", null);
+        return "redirect:/";
     }
 }

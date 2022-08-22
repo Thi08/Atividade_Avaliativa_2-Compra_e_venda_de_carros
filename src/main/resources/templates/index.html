@@ -10,8 +10,11 @@
 <body>
 
   <div class="header">
-    Leilão de veículos do Bruno - Seja bem vindo! <span th:text="${user}"></span>
-    <a href="/login">Login</a>
+    Leilão de veículos do Bruno - Seja bem vindo! <span th:if="${session.user != null}"
+      th:text="${session.user.nome}"></span>
+    <a href="/login" th:if="${session.user == null}">Login</a>
+    <a href="/logout" th:if="${session.user != null}">Logout</a>
+
   </div>
   <h4><span th:text="${date}">18/08/2022</span></h4>
 </body>

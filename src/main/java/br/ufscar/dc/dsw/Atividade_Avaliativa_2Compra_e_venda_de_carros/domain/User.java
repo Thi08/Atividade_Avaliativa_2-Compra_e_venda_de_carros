@@ -3,6 +3,8 @@ package br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+import org.springframework.web.bind.annotation.ModelAttribute;
+
 @Entity
 @Table(name = "usuario")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -70,5 +72,4 @@ public class User {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-
 }

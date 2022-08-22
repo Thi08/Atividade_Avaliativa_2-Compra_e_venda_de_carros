@@ -1,5 +1,6 @@
 package br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.controller;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,15 +8,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.common.StoreDTO;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.ICostumerDAO;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.IStoreDAO;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.Store;
+import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.User;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.UserType;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.Costumer;
 
@@ -28,8 +32,19 @@ public class AdminController {
     @Autowired
     private ICostumerDAO costumerDAO;
 
+    private boolean validateRequest(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user.getTipo() != UserType.ADMIN) {
+            return false;
+        }
+        return true;
+    }
+
     @GetMapping("/")
-    public String adminHome(Model model) {
+    public String adminHome(Model model, HttpSession session) {
+        if (!validateRequest(session)) {
+            return "redirect:/";
+        }
         model.addAttribute("users", costumerDAO.findAll());
         model.addAttribute("stores", storeDAO.findAll());
         return "admin/home";
