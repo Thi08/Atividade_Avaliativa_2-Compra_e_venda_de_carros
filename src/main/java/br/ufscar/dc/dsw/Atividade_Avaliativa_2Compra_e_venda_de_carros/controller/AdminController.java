@@ -12,23 +12,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.common.StoreDTO;
+import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.ICostumerDAO;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.IStoreDAO;
-import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.IUserDAO;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.Store;
-import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.User;
+import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.UserType;
+import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.Costumer;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
     @Autowired
-    private IUserDAO userDAO;
-    @Autowired
     private IStoreDAO storeDAO;
+    @Autowired
+    private ICostumerDAO costumerDAO;
 
     @GetMapping("/")
     public String adminHome(Model model) {
-        model.addAttribute("users", userDAO.findAll());
+        model.addAttribute("users", costumerDAO.findAll());
         model.addAttribute("stores", storeDAO.findAll());
         return "admin/home";
     }
@@ -36,18 +38,18 @@ public class AdminController {
     // Métodos para usuários.
 
     @GetMapping("/user")
-    public String formUser(User user) {
+    public String formUser(Costumer user) {
         return "admin/formUser";
     }
 
     @PostMapping("/user")
-    public String cadastraUser(@Valid User usuario, BindingResult result, Model model) {
+    public String cadastraUser(@Valid Costumer usuario, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("error", "Verifique o dados inseridos");
             return "admin/formUser";
         } else {
             try {
-                this.userDAO.save(usuario);
+                this.costumerDAO.save(usuario);
             } catch (Exception e) {
                 model.addAttribute("error", "Já existe um usuário com essa combinação de dados");
                 return "admin/formUser";
@@ -59,21 +61,20 @@ public class AdminController {
     @GetMapping("/user/{id}")
     public ModelAndView formEdicaoUser(@PathVariable("id") long id) {
         ModelAndView mv = new ModelAndView("admin/formEdicaoUser");
-        User user = this.userDAO.getReferenceById(id);
+        Costumer user = this.costumerDAO.getReferenceById(id);
         mv.addObject("user", user);
         return mv;
     }
 
     @PostMapping("/user/{id}")
-    public String atualizaUser(@Valid User usuario, BindingResult result, @PathVariable Long id, Model model) {
+    public String atualizaUser(@Valid Costumer usuario, BindingResult result, @PathVariable Long id, Model model) {
+        System.out.println(usuario.getNome());
         if (result.hasErrors()) {
             model.addAttribute("error", "Verifique o dados inseridos");
             return "admin/formEdicaoUser";
         } else {
             try {
-                User userBanco = this.userDAO.getReferenceById(id);
-                userBanco.toUser(usuario);
-                this.userDAO.save(userBanco);
+                this.costumerDAO.save(usuario);
             } catch (Exception e) {
                 model.addAttribute("error", "Já existe um usuário com essa combinação de dados");
                 return "admin/formEdicaoUser";
@@ -84,7 +85,7 @@ public class AdminController {
 
     @GetMapping("/user/delete/{id}")
     public String deleteUser(@PathVariable("id") long id) {
-        this.userDAO.deleteById(id);
+        this.costumerDAO.deleteById(id);
         return "redirect:/admin/";
     }
 
@@ -96,13 +97,17 @@ public class AdminController {
     }
 
     @PostMapping("/loja")
-    public String cadastraLoja(@Valid Store loja, BindingResult result, Model model) {
+    public String cadastraLoja(@Valid StoreDTO loja, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            System.out.println(result.toString());
             model.addAttribute("error", "Verifique o dados inseridos");
             return "admin/formLoja";
         } else {
             try {
-                this.storeDAO.save(loja);
+                Store novaLoja = new Store();
+                novaLoja.toStore(loja);
+                novaLoja.setTipo(UserType.STORE);
+                this.storeDAO.save(novaLoja);
             } catch (Exception e) {
                 model.addAttribute("error", "Já existe uma loja com essa combinação de dados");
                 return "admin/formLoja";
@@ -119,18 +124,18 @@ public class AdminController {
     }
 
     @PostMapping("/loja/{id}")
-    public String atualizaLOja(@Valid Store loja, BindingResult result, @PathVariable Long id, Model model) {
+    public String atualizaLoja(@Valid StoreDTO loja, BindingResult result, @PathVariable Long id, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("error", "Verifique o dados inseridos");
             return "admin/formEdicaoLoja";
         } else {
             try {
-                Store lojaBanco = this.storeDAO.getReferenceById(id);
-                lojaBanco.toStore(loja);
-                this.storeDAO.save(lojaBanco);
+                Store novaLoja = this.storeDAO.getReferenceById(id);
+                novaLoja.toStore(loja);
+                this.storeDAO.save(novaLoja);
             } catch (Exception e) {
-                model.addAttribute("error", "Já existe um usuário com essa combinação de dados");
-                return "admin/formEdicaoUser";
+                model.addAttribute("error", "Já existe uma loja com essa combinação de dados");
+                return "admin/formEdicaoLoja";
             }
             return "redirect:/admin/";
         }

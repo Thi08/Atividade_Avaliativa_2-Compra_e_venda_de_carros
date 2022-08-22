@@ -8,5 +8,4 @@ public interface IUserDAO extends JpaRepository<User, Long> {
 
     public User findByEmail(String email);
 
-    public User findByCpf(String cpf);
 }

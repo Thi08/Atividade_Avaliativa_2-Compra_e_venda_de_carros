@@ -1,16 +1,11 @@
-package br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain;
+package br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.common;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-@Entity
-@Table(name = "usuario")
-@Inheritance(strategy = InheritanceType.JOINED)
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class StoreDTO {
 
     @NotBlank
     @NotNull
@@ -27,24 +22,29 @@ public class User {
     @Column(nullable = false)
     private String senha;
 
+    @NotBlank
     @NotNull
-    @Column(nullable = false)
-    private UserType tipo;
+    @Size(max = 14, min = 14)
+    @Column(unique = true, nullable = false, length = 14)
+    private String cnpj;
 
-    public UserType getTipo() {
-        return tipo;
+    @Column(length = 255)
+    private String descricao;
+
+    public String getCnpj() {
+        return cnpj;
     }
 
-    public void setTipo(UserType tipo) {
-        this.tipo = tipo;
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
     }
 
-    public Long getId() {
-        return id;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public String getEmail() {
