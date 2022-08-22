@@ -1,5 +1,8 @@
 package br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.IVeiculoDAO;
@@ -21,6 +27,8 @@ import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.Ve
 @Controller
 @RequestMapping("/veiculos")
 public class StoreController {
+
+    private static String caminhoFotos = "/home/blp/Atividade_Avaliativa_2-Compra_e_venda_de_carros/src/main/resources/static/images/";
 
     @Autowired
     private IVeiculoDAO iVeiculoDAO;
@@ -43,12 +51,27 @@ public class StoreController {
 
     // Salva os veiculo cadastrado caso não haja erro
     @PostMapping("")
-    public String cadastrado(@Valid Veiculo veiculo, BindingResult bindingResult) {
+    public String cadastrado(@Valid Veiculo veiculo, BindingResult bindingResult,
+            @RequestParam("file") MultipartFile arquivo) {
 
         if (bindingResult.hasErrors()) {
             return "store/cadastro";
         } else {
             this.iVeiculoDAO.save(veiculo);
+            try {
+                if (!arquivo.isEmpty()) {
+                    byte[] bytes = arquivo.getBytes();
+                    Path caminho = Paths
+                            .get(caminhoFotos + String.valueOf(veiculo.getId()) + arquivo.getOriginalFilename());
+                    Files.write(caminho, bytes);
+
+                    veiculo.setFotos(String.valueOf(veiculo.getId()) + arquivo.getOriginalFilename());
+                    this.iVeiculoDAO.save(veiculo);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             return "redirect:veiculos";
         }
     }
@@ -60,7 +83,7 @@ public class StoreController {
 
         if (optional.isPresent()) {
             Veiculo veiculo = optional.get();
-            ModelAndView mv = new ModelAndView("store/propostas");
+            ModelAndView mv = new ModelAndView("store/detalhes");
             mv.addObject("veiculo", veiculo);
 
             return mv;
@@ -91,7 +114,8 @@ public class StoreController {
 
     // Salva o Veiculo editado caso não haja erro
     @PostMapping("/{id}")
-    public ModelAndView editado(@PathVariable Long id, @Valid Veiculo veiculo, BindingResult bindingResult) {
+    public ModelAndView editado(@PathVariable Long id, @Valid Veiculo veiculo, BindingResult bindingResult,
+            @RequestParam("file") MultipartFile arquivo) {
 
         if (bindingResult.hasErrors()) {
             ModelAndView mv = new ModelAndView("store/editar");
@@ -102,7 +126,20 @@ public class StoreController {
 
             if (optional.isPresent()) {
                 veiculo = veiculo.toVeiculo(optional.get());
-                this.iVeiculoDAO.save(veiculo);
+
+                try {
+                    if (!arquivo.isEmpty()) {
+                        byte[] bytes = arquivo.getBytes();
+                        Path caminho = Paths
+                                .get(caminhoFotos + String.valueOf(veiculo.getId()) + arquivo.getOriginalFilename());
+                        Files.write(caminho, bytes);
+
+                        veiculo.setFotos(String.valueOf(veiculo.getId()) + arquivo.getOriginalFilename());
+                        this.iVeiculoDAO.save(veiculo);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
                 return new ModelAndView("redirect:/veiculos/" + veiculo.getId());
 
@@ -129,5 +166,16 @@ public class StoreController {
         }
 
         return mv;
+    }
+
+    @GetMapping("/imagem/{fotos}")
+    @ResponseBody
+    public byte[] imagem(@PathVariable("fotos") String fotos) throws IOException {
+        File fotoVeiculo = new File(caminhoFotos + fotos);
+        if (fotos != null || fotos.trim().length() > 0) {
+
+            return Files.readAllBytes(fotoVeiculo.toPath());
+        }
+        return null;
     }
 }

@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "Veiculo")
+@Table(name = "VEICULO")
 public class Veiculo {
 
   @Id
@@ -143,6 +143,7 @@ public class Veiculo {
     veiculo.setQuilometragem(this.quilometragem);
     veiculo.setDescricao(this.descricao);
     veiculo.setValor(this.valor);
+    veiculo.setFotos(this.fotos);
 
     return veiculo;
   }

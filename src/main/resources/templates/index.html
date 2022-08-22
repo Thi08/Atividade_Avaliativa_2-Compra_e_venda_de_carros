@@ -1,21 +1,22 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" th:href="@{/css/indexStyle.css}" />
+    <title>Leilão de veículos</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" th:href="@{/css/indexStyle.css}">
-  <title>Leilão de veículos</title>
-</head>
+  <body>
+    <div class="header">
+      Leilão de veículos do Bruno
+      <br />
+      Seja bem vindo!
+      <br />
+      <span th:text="${user}"></span>
+      <br />
+      <button>Login</button>
+    </div>
 
-<body>
-
-  <div class="header">
-    Leilão de veículos do Bruno - Seja bem vindo! <span th:text="${user}"></span>
-    <button>Login</button>
-  </div>
-
-  Teste
-  <h4><span th:text="${date}">18/08/2022</span></h4>
-</body>
-
+    <h4><span th:text="${date}">18/08/2022</span></h4>
+  </body>
 </html>

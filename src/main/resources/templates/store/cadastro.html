@@ -39,7 +39,7 @@
                 <!-- <th:set var="loja" value="${requestScope.loja}" />
                 <th:set var="usuario" value="${requestScope.usuario}" /> -->
 
-                <form th:object="${veiculo}" class="formulario_de_loja" method="post" action="/veiculos">
+                <form enctype="multipart/form-data" th:object="${veiculo}" class="formulario_de_loja" method="post" action="/veiculos">
                     <fieldset>
                         <legend>Cadastro de veículos</legend>
 
@@ -85,7 +85,7 @@
                         </label>
 
                         <label>
-                            <input id="fotos" type="file" th:field="*{fotos}" multiple accept="image/*">
+                            <input id="fotos" type="file" name="file" multiple="multiple">
                         </label>
 
                         <button type="submit" id="botao">
