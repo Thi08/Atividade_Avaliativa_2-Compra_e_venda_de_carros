@@ -1,26 +1,22 @@
 package br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.controller;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.common.StoreDTO;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.ICostumerDAO;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.IStoreDAO;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.Store;
-import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.User;
-import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.UserType;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.Costumer;
 
 @Controller
@@ -32,19 +28,13 @@ public class AdminController {
     @Autowired
     private ICostumerDAO costumerDAO;
 
-    private boolean validateRequest(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user.getTipo() != UserType.ADMIN) {
-            return false;
-        }
-        return true;
+    private String passEncoder(String pass) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.encode(pass);
     }
 
     @GetMapping("/")
-    public String adminHome(Model model, HttpSession session) {
-        if (!validateRequest(session)) {
-            return "redirect:/";
-        }
+    public String adminHome(Model model) {
         model.addAttribute("users", costumerDAO.findAll());
         model.addAttribute("stores", storeDAO.findAll());
         return "admin/home";
@@ -64,6 +54,7 @@ public class AdminController {
             return "admin/formUser";
         } else {
             try {
+                usuario.setSenha(passEncoder(usuario.getSenha()));
                 this.costumerDAO.save(usuario);
             } catch (Exception e) {
                 model.addAttribute("error", "Já existe um usuário com essa combinação de dados");
@@ -89,6 +80,7 @@ public class AdminController {
             return "admin/formEdicaoUser";
         } else {
             try {
+                usuario.setSenha(passEncoder(usuario.getSenha()));
                 this.costumerDAO.save(usuario);
             } catch (Exception e) {
                 model.addAttribute("error", "Já existe um usuário com essa combinação de dados");
@@ -121,7 +113,8 @@ public class AdminController {
             try {
                 Store novaLoja = new Store();
                 novaLoja.toStore(loja);
-                novaLoja.setTipo(UserType.STORE);
+                novaLoja.setTipo("ROLE_STORE");
+                novaLoja.setSenha(passEncoder(novaLoja.getSenha()));
                 this.storeDAO.save(novaLoja);
             } catch (Exception e) {
                 model.addAttribute("error", "Já existe uma loja com essa combinação de dados");
@@ -147,6 +140,7 @@ public class AdminController {
             try {
                 Store novaLoja = this.storeDAO.getReferenceById(id);
                 novaLoja.toStore(loja);
+                novaLoja.setSenha(passEncoder(novaLoja.getSenha()));
                 this.storeDAO.save(novaLoja);
             } catch (Exception e) {
                 model.addAttribute("error", "Já existe uma loja com essa combinação de dados");

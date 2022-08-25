@@ -3,8 +3,6 @@ package br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
-import org.springframework.web.bind.annotation.ModelAttribute;
-
 @Entity
 @Table(name = "usuario")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -31,13 +29,13 @@ public class User {
 
     @NotNull
     @Column(nullable = false)
-    private UserType tipo;
+    private String tipo;
 
-    public UserType getTipo() {
+    public String getTipo() {
         return tipo;
     }
 
-    public void setTipo(UserType tipo) {
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 

@@ -32,34 +32,34 @@ public class IndexController {
         return "index";
     }
 
-    @GetMapping("/login")
-    public String formLogin(User usuario) {
-        return "login";
-    }
+    // @GetMapping("/login")
+    // public String formLogin(User usuario) {
+    // return "login";
+    // }
 
-    @PostMapping("/login")
-    public String login(User usuario, Model model, HttpSession session) {
-        try {
-            User novoUsuario = this.userDAO.findByEmail(usuario.getEmail());
-            System.out.println(novoUsuario.getTipo());
-            session.setAttribute("user", novoUsuario);
-            switch (novoUsuario.getTipo()) {
-                case ADMIN:
-                    return "redirect:/admin/";
-                case USER:
-                    return "redirect:/user/";
-                case STORE:
-                    return "redirect:/store/";
-            }
-        } catch (Exception e) {
-            return "login";
-        }
-        return "index";
-    }
+    // @PostMapping("/login")
+    // public String login(User usuario, Model model, HttpSession session) {
+    // try {
+    // User novoUsuario = this.userDAO.findByEmail(usuario.getEmail());
+    // System.out.println(novoUsuario.getTipo());
+    // session.setAttribute("user", novoUsuario);
+    // switch (novoUsuario.getTipo()) {
+    // case "ROLE_ADMIN":
+    // return "redirect:/admin/";
+    // case "ROLE_USER":
+    // return "redirect:/user/";
+    // case "ROLE_STORE":
+    // return "redirect:/store/";
+    // }
+    // } catch (Exception e) {
+    // return "login";
+    // }
+    // return "index";
+    // }
 
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.setAttribute("user", null);
-        return "redirect:/";
-    }
+    // @GetMapping("/logout")
+    // public String logout(HttpSession session) {
+    // session.setAttribute("user", null);
+    // return "redirect:/";
+    // }
 }

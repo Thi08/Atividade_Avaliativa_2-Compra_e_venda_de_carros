@@ -28,6 +28,7 @@ public class StoreController {
     // Lista os veiculos cadastrados
     @GetMapping("")
     public ModelAndView listar() {
+        System.out.println("entrou aqui");
         List<Veiculo> veiculos = this.iVeiculoDAO.findAll();
         ModelAndView mv = new ModelAndView("store/index");
         mv.addObject("veiculos", veiculos);
