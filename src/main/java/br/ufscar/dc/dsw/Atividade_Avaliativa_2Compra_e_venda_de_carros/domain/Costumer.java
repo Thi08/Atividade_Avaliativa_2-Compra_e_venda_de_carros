@@ -1,6 +1,7 @@
 package br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -28,6 +29,9 @@ public class Costumer extends User {
     @NotNull
     @Column(nullable = false)
     private Date dataNasc;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Proposta> listProposta;
 
     public Costumer() {
     }
@@ -69,6 +73,14 @@ public class Costumer extends User {
         this.sexo = usuario.sexo;
         this.telefone = usuario.telefone;
         this.cpf = usuario.cpf;
+    }
+
+    public List<Proposta> getListProposta() {
+        return listProposta;
+    }
+
+    public void setListProposta(List<Proposta> listProposta) {
+        this.listProposta = listProposta;
     }
 
 }

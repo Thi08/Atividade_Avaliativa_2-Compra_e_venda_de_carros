@@ -5,9 +5,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.IUserDAO;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.User;
@@ -20,6 +17,11 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(Model model, Authentication auth) {
+        if (auth != null) {
+            User user = userDAO.findByEmail(auth.getName());
+            model.addAttribute("typeUser", user.getTipo());
+            System.out.println(model.getAttribute("typeUser"));
+        }
         return "index";
     }
 

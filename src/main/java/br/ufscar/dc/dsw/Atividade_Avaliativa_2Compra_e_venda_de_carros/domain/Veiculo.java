@@ -1,5 +1,7 @@
 package br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -53,14 +56,17 @@ public class Veiculo {
 
   @ManyToOne
   @JoinColumn(name = "cnpj")
-  private Store lojaCNPJ;
+  private Store loja;
+
+  @OneToMany(mappedBy = "veiculo")
+  private List<Proposta> propostas;
 
   public Store getLojaCNPJ() {
-    return lojaCNPJ;
+    return loja;
   }
 
   public void setLojaCNPJ(Store lojaCNPJ) {
-    this.lojaCNPJ = lojaCNPJ;
+    this.loja = lojaCNPJ;
   }
 
   public Long getId() {

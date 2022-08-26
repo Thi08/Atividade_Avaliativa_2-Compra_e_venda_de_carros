@@ -68,7 +68,9 @@
     </table>
 
     <div class="col-sm-5"></div>
-    <button type="submit" class="btn btn-primary" href="/veiculos/cadastrar">Adicionar Veiculo</button>
+    <form th:action="@{/veiculos/cadastrar}" method="get">
+      <button type="submit" class="btn btn-primary">Adicionar Veiculo</button>
+    </form>
   </div>
 </body>
 

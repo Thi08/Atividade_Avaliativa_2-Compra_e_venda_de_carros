@@ -29,7 +29,6 @@ public class StoreController {
     // Lista os veiculos cadastrados
     @GetMapping("")
     public ModelAndView listar() {
-        System.out.println("entrou aqui");
         List<Veiculo> veiculos = this.iVeiculoDAO.findAll();
         ModelAndView mv = new ModelAndView("store/index");
         mv.addObject("veiculos", veiculos);
@@ -40,7 +39,7 @@ public class StoreController {
     // Cadastra novo veículo
     @GetMapping("/cadastrar")
     public String cadastrar(Veiculo veiculo) {
-        return "store/cadastro";
+        return "store/cadastrar";
     }
 
     // Salva os veiculo cadastrado caso não haja erro

@@ -10,23 +10,7 @@
     <title>Painel Administrativo</title>
 </head>
 
-<header>
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">Leilão de Veículos</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li><a href="#">Home</a></li>
-                <li><a type="submit" href="/admin/user">Criar usuários</a></li>
-                <li><a type="submit" href="/admin/loja">Criar lojas</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-            </ul>
-        </div>
-    </nav>
-</header>
+<header th:replace="~{fragmentos::navigationAdmin}"></header>
 
 <body>
     <div th:if="${users.size() > 0}">
@@ -52,12 +36,18 @@
                     <td th:text="${user.tipo}"></td>
                     <td th:text="${user.sexo}"></td>
                     <td>
-                        <button type="submit" class="btn btn-primary btn-sm"
-                            th:href="@{/admin/user/{userId} (userId = ${user.id})}">Editar usuário</button>
+                        <form th:action="@{/admin/usuario/{userId} (userId = ${user.id})}" method="get">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                Editar usuário
+                            </button>
+                        </form>
                     </td>
                     <td>
-                        <button type="submit" class="btn btn-primary btn-sm"
-                            th:href="@{/admin/user/delete/{userId} (userId = ${user.id})}">Remover usuário</button>
+                        <form th:action="@{/admin/usuario/delete/{userId} (userId = ${user.id})}" method="get">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                Remover usuário
+                            </button>
+                        </form>
                     </td>
                 </tr>
             </tbody>
@@ -85,12 +75,18 @@
                     <td th:text="${loja.cnpj}"></td>
                     <td th:text="${loja.descricao}"></td>
                     <td>
-                        <button type="submit" class="btn btn-primary btn-sm"
-                            th:href="@{/admin/loja/{lojaId} (lojaId = ${loja.id})}">Editar loja</button>
+                        <form th:action="@{/admin/loja/{lojaId} (lojaId = ${loja.id})}" method="get">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                Editar loja
+                            </button>
+                        </form>
                     </td>
                     <td>
-                        <button type="submit" class="btn btn-primary btn-sm"
-                            th:href="@{/admin/loja/delete/{lojaId} (lojaId = ${loja.id})}">Remover loja</button>
+                        <form th:action="@{/admin/loja/delete/{lojaId} (lojaId = ${loja.id})}" method="get">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                Remover loja
+                            </button>
+                        </form>
                     </td>
                 </tr>
             </tbody>
