@@ -12,6 +12,7 @@ import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.ICost
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.IStoreDAO;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.IUserDAO;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.Costumer;
+import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.Store;
 
 @SpringBootApplication
 public class AtividadeAvaliativa2CompraEVendaDeCarrosApplication {
@@ -24,15 +25,35 @@ public class AtividadeAvaliativa2CompraEVendaDeCarrosApplication {
 	public CommandLineRunner demo(IUserDAO userDAO, IStoreDAO storeDAO, ICostumerDAO costumerDAO,
 			BCryptPasswordEncoder encoder) {
 		return (args) -> {
+			Costumer admin = new Costumer();
+			admin.setCpf("20193834932");
+			admin.setDataNasc(Date.valueOf("2000-03-24"));
+			admin.setEmail("admin@admin.com");
+			admin.setNome("Ademira");
+			admin.setSenha(encoder.encode("admin"));
+			admin.setSexo('F');
+			admin.setTelefone("11970707070");
+			admin.setTipo("ROLE_ADMIN");
+			costumerDAO.save(admin);
+
+			Store loja = new Store();
+			loja.setCnpj("01234567019234");
+			loja.setDescricao("Preço barato é aqui");
+			loja.setEmail("loja@loja.com");
+			loja.setNome("Loja, a loja");
+			loja.setSenha(encoder.encode("loja"));
+			loja.setTipo("ROLE_STORE");
+			storeDAO.save(loja);
+
 			Costumer user = new Costumer();
-			user.setCpf("20193834932");
-			user.setDataNasc(Date.valueOf("2000-03-24"));
-			user.setEmail("admin@admin.com");
-			user.setNome("Ademira");
-			user.setSenha(encoder.encode("admin"));
-			user.setSexo('F');
-			user.setTelefone("11970707070");
-			user.setTipo("ROLE_ADMIN");
+			user.setCpf("12357242461");
+			user.setDataNasc(Date.valueOf("2000-05-02"));
+			user.setEmail("user@user.com");
+			user.setNome("Wando");
+			user.setSenha(encoder.encode("user"));
+			user.setSexo('M');
+			user.setTelefone("11970707071");
+			user.setTipo("ROLE_USER");
 			costumerDAO.save(user);
 		};
 

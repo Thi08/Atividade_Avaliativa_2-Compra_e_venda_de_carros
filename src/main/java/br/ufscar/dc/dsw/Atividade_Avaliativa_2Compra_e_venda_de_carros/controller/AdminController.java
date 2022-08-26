@@ -3,6 +3,7 @@ package br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.controll
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +34,7 @@ public class AdminController {
         return encoder.encode(pass);
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public String adminHome(Model model) {
         model.addAttribute("users", costumerDAO.findAll());
         model.addAttribute("stores", storeDAO.findAll());
@@ -42,12 +43,12 @@ public class AdminController {
 
     // Métodos para usuários.
 
-    @GetMapping("/user")
+    @GetMapping("/usuario")
     public String formUser(Costumer user) {
         return "admin/formUser";
     }
 
-    @PostMapping("/user")
+    @PostMapping("/usuario")
     public String cadastraUser(@Valid Costumer usuario, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("error", "Verifique o dados inseridos");
@@ -64,7 +65,7 @@ public class AdminController {
         }
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/usuario/{id}")
     public ModelAndView formEdicaoUser(@PathVariable("id") long id) {
         ModelAndView mv = new ModelAndView("admin/formEdicaoUser");
         Costumer user = this.costumerDAO.getReferenceById(id);
@@ -72,9 +73,8 @@ public class AdminController {
         return mv;
     }
 
-    @PostMapping("/user/{id}")
+    @PostMapping("/usuario/{id}")
     public String atualizaUser(@Valid Costumer usuario, BindingResult result, @PathVariable Long id, Model model) {
-        System.out.println(usuario.getNome());
         if (result.hasErrors()) {
             model.addAttribute("error", "Verifique o dados inseridos");
             return "admin/formEdicaoUser";
@@ -90,7 +90,7 @@ public class AdminController {
         }
     }
 
-    @GetMapping("/user/delete/{id}")
+    @GetMapping("/usuario/delete/{id}")
     public String deleteUser(@PathVariable("id") long id) {
         this.costumerDAO.deleteById(id);
         return "redirect:/admin/";

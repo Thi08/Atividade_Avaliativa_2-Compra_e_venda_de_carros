@@ -1,5 +1,7 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
 
 <head>
   <meta charset="UTF-8">
@@ -10,10 +12,10 @@
 <body>
 
   <div class="header">
-    Leilão de veículos do Bruno - Seja bem vindo! <span th:if="${session.user != null}"
-      th:text="${session.user.nome}"></span>
-    <a href="/login" th:if="${session.user == null}">Login</a>
-    <a href="/logout" th:if="${session.user != null}">Logout</a>
+    Leilão de veículos do Bruno - Seja bem vindo! <span sec:authorize="isAuthenticated()"
+      sec:authentication="name"></span>
+    <a href="/login" sec:authorize="!isAuthenticated()">Login</a>
+    <a th:href="@{/logout}" sec:authorize="isAuthenticated()">Logout</a>
   </div>
 
 </body>

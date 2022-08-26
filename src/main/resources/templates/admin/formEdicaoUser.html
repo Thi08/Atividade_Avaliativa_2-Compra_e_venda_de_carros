@@ -13,7 +13,7 @@
         <p th:if="${error}" th:text="${error}"></p>
     </div>
 
-    <form class="forms" method="POST" th:action="@{/admin/user/{userId} (userId = ${user.id})}" th:object="${user}">
+    <form class="forms" method="POST" th:action="@{/admin/usuario/{userId} (userId = ${user.id})}" th:object="${user}">
         <fieldset>
             <legend>Edição do usuário</legend>
 
@@ -22,7 +22,7 @@
             </label>
 
             <label>Senha
-                <input required id="senha" type="password" th:field="*{senha}" th:value="${user.senha}" />
+                <input required id="senha" type="password" th:field="*{senha}" />
             </label>
 
             <label>CPF

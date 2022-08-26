@@ -13,7 +13,7 @@
         <p th:if="${error}" th:text="${error}"></p>
     </div>
 
-    <form class="forms" method="POST" action="/admin/user" th:object="${costumer}">
+    <form class="forms" method="POST" th:action="@{/admin/usuario}" th:object="${costumer}">
         <fieldset>
             <legend>Criação do usuário</legend>
 

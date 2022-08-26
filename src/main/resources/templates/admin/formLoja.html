@@ -11,7 +11,7 @@
 
     <div th:if="${error}" th:replace="~{fragmentos::errors(${error})}"></div>
 
-    <form class="forms" method="POST" action="/admin/loja" th:object="${store}">
+    <form class="forms" method="POST" th:action="@{/admin/loja}" th:object="${store}">
         <fieldset>
             <legend>Cadastro de lojas</legend>
 

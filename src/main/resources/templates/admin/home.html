@@ -8,7 +8,7 @@
 
 <body>
     <div class="ferramentas de criacao">
-        <a href="/admin/user">Criar usuários</a>
+        <a href="/admin/usuario">Criar usuários</a>
         <a href="/admin/loja">Criar lojas</a>
         <a href="/logout">Sair</a>
     </div>
@@ -35,8 +35,8 @@
                     <td th:text="${user.cpf}"></td>
                     <td th:text="${user.tipo}"></td>
                     <td th:text="${user.sexo}"></td>
-                    <td> <a th:href="@{/admin/user/{userId} (userId = ${user.id})}">Editar usuário</a> </td>
-                    <td> <a th:href="@{/admin/user/delete/{userId} (userId = ${user.id})}">Remover usuário</a> </td>
+                    <td> <a th:href="@{/admin/usuario/{userId} (userId = ${user.id})}">Editar usuário</a> </td>
+                    <td> <a th:href="@{/admin/usuario/delete/{userId} (userId = ${user.id})}">Remover usuário</a> </td>
                 </tr>
             </tbody>
         </table>
