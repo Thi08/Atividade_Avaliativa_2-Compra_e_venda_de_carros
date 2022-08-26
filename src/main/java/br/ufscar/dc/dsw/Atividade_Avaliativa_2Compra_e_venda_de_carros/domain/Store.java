@@ -5,13 +5,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Entity
-@Table(name = "LOJA")
-public class Store {
+import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.common.StoreDTO;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Entity
+@Table(name = "loja")
+public class Store extends User {
 
     @NotBlank
     @NotNull
@@ -21,21 +19,6 @@ public class Store {
 
     @Column(length = 255)
     private String descricao;
-
-    @NotBlank
-    @NotNull
-    @Column(nullable = false)
-    private String email;
-
-    @NotBlank
-    @NotNull
-    @Column(nullable = false, unique = true)
-    private String nome;
-
-    @NotBlank
-    @NotNull
-    @Column(nullable = false)
-    private String senha;
 
     public String getCnpj() {
         return cnpj;
@@ -53,38 +36,6 @@ public class Store {
         this.descricao = descricao;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     // @OneToMany(mappedBy = "loja")
     // private List<Veiculos> veiculos;
 
@@ -96,11 +47,11 @@ public class Store {
     // this.veiculos = veiculos;
     // }
 
-    public void toStore(Store loja) {
-        this.cnpj = loja.cnpj;
-        this.descricao = loja.descricao;
-        this.email = loja.email;
-        this.nome = loja.nome;
-        this.senha = loja.senha;
+    public void toStore(StoreDTO dto) {
+        this.cnpj = dto.getCnpj();
+        this.descricao = dto.getDescricao();
+        this.setNome(dto.getNome());
+        this.setEmail(dto.getEmail());
+        this.setSenha(dto.getSenha());
     }
 }

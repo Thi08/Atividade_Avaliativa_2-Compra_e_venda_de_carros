@@ -1,8 +1,5 @@
 package br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,10 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.IVeiculoDAO;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.Veiculo;
@@ -44,18 +39,18 @@ public class StoreController {
     // Cadastra novo veículo
     @GetMapping("/cadastrar")
     public String cadastrar(Veiculo veiculo) {
-        return "store/cadastro";
+        return "store/cadastrar";
     }
 
     // Salva os veiculo cadastrado caso não haja erro
     @PostMapping("")
-    public String cadastrado(@Valid Veiculo veiculo, BindingResult bindingResult) {
+    public String cadastrado(@Valid Veiculo veiculo, BindingResult bindingResult, RedirectAttributes attr) {
 
         if (bindingResult.hasErrors()) {
             return "store/cadastro";
         } else {
             this.iVeiculoDAO.save(veiculo);
-
+            attr.addFlashAttribute("sucess", "Cadastro de veículos feito com sucesso");
             return "redirect:veiculos";
         }
     }
@@ -98,7 +93,8 @@ public class StoreController {
 
     // Salva o Veiculo editado caso não haja erro
     @PostMapping("/{id}")
-    public ModelAndView editado(@PathVariable Long id, @Valid Veiculo veiculo, BindingResult bindingResult) {
+    public ModelAndView editado(@PathVariable Long id, @Valid Veiculo veiculo, BindingResult bindingResult,
+            RedirectAttributes attr) {
 
         if (bindingResult.hasErrors()) {
             ModelAndView mv = new ModelAndView("store/editar");
@@ -106,6 +102,7 @@ public class StoreController {
 
         } else {
             Optional<Veiculo> optional = this.iVeiculoDAO.findById(id);
+            attr.addFlashAttribute("sucess", "Criação de veículo feita com sucesso.");
 
             if (optional.isPresent()) {
                 veiculo = veiculo.toVeiculo(optional.get());

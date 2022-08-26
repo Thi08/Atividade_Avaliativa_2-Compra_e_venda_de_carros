@@ -1,35 +1,45 @@
 package br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain;
 
-import javax.persistence.*;
+import java.sql.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "PROPOSTA")
+@Table(name = "proposta")
 public class Proposta {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @ManyToOne
+  @JoinColumn(name = "usuario_id")
+  private User usuario;
+
+  @ManyToOne
+  @JoinColumn(name = "veiculo_id")
+  private Veiculo veiculo;
+
   @NotNull
-  @Column(nullable = false, columnDefinition = "DECIMAL(8,2) DEFAULT 0.0")
-  private float valor;
+  private Long preco;
 
-  private String data;
+  @NotNull
+  @NotBlank
+  private String modo_de_pagamento;
 
+  @NotNull
+  private Date data_proposta;
+
+  @NotNull
   private String status;
 
-  @ManyToOne
-  @JoinColumn(name = "cpf")
-  private User userCPF;
-
-  @ManyToOne
-  @JoinColumn(name = "placa")
-  private Veiculo veicPlaca;
-
-  @ManyToOne
-  @JoinColumn(name = "cnpj")
-  private Store lojaCNPJ;
+  public Proposta() {
+  }
 
   public Long getId() {
     return id;
@@ -39,20 +49,44 @@ public class Proposta {
     this.id = id;
   }
 
-  public float getValor() {
-    return valor;
+  public User getUsuario() {
+    return usuario;
   }
 
-  public void setValor(float valor) {
-    this.valor = valor;
+  public void setUsuario(User usuario) {
+    this.usuario = usuario;
   }
 
-  public String getData() {
-    return data;
+  public Veiculo getVeiculo() {
+    return veiculo;
   }
 
-  public void setData(String data) {
-    this.data = data;
+  public void setVeiculo(Veiculo veiculo) {
+    this.veiculo = veiculo;
+  }
+
+  public Long getPreco() {
+    return preco;
+  }
+
+  public void setPreco(Long preco) {
+    this.preco = preco;
+  }
+
+  public String getModo_de_pagamento() {
+    return modo_de_pagamento;
+  }
+
+  public void setModo_de_pagamento(String modo_de_pagamento) {
+    this.modo_de_pagamento = modo_de_pagamento;
+  }
+
+  public Date getData_proposta() {
+    return data_proposta;
+  }
+
+  public void setData_proposta(Date data_proposta) {
+    this.data_proposta = data_proposta;
   }
 
   public String getStatus() {
@@ -61,30 +95,6 @@ public class Proposta {
 
   public void setStatus(String status) {
     this.status = status;
-  }
-
-  public User getUserCPF() {
-    return userCPF;
-  }
-
-  public void setUserCPF(User userCPF) {
-    this.userCPF = userCPF;
-  }
-
-  public Veiculo getVeicPlaca() {
-    return veicPlaca;
-  }
-
-  public void setVeicPlaca(Veiculo veicPlaca) {
-    this.veicPlaca = veicPlaca;
-  }
-
-  public Store getLojaCNPJ() {
-    return lojaCNPJ;
-  }
-
-  public void setLojaCNPJ(Store lojaCNPJ) {
-    this.lojaCNPJ = lojaCNPJ;
   }
 
 }

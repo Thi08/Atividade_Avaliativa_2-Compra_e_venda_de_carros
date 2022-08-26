@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "VEICULO")
+@Table(name = "veiculo")
 public class Veiculo {
 
   @Id
@@ -54,7 +54,10 @@ public class Veiculo {
 
   @ManyToOne
   @JoinColumn(name = "cnpj")
-  private Store lojaCNPJ;
+  private Store loja;
+
+  @OneToMany(mappedBy = "veiculo")
+  private List<Proposta> propostas;
 
   private String path;
   private String path2;
@@ -148,11 +151,11 @@ public class Veiculo {
   }
 
   public Store getLojaCNPJ() {
-    return lojaCNPJ;
+    return loja;
   }
 
   public void setLojaCNPJ(Store lojaCNPJ) {
-    this.lojaCNPJ = lojaCNPJ;
+    this.loja = lojaCNPJ;
   }
 
   public Long getId() {
