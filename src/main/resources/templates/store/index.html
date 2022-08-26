@@ -1,70 +1,75 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UFT-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Veiculos</title>
-  </head>
+<head>
+  <meta charset="UFT-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <title>Veiculos</title>
+</head>
 
-  <style>
-    table,
-    th,
-    td {
-      border: 1px solid black;
-      margin: auto;
-    }
-  </style>
-
-  <body>
-    <div>
-      <span th:text="${param.mensagem != null ? param.mensagem : ''}"
-        >MENSAGEM ERRO</span
-      >
-    </div>
-    <div>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Placa</th>
-            <th>Ano</th>
-            <th>Quilometragem</th>
-            <th>Valor</th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr th:each="veiculo : ${veiculos}">
-            <th scope="row" th:text="${veiculo.getId()}">ID</th>
-            <td th:text="${veiculo.placa}">Placa</td>
-            <td th:text="${veiculo.ano}">Ano</td>
-            <td th:text="${veiculo.quilometragem}">Quilometragem</td>
-            <td th:text="${veiculo.valor}">Valor</td>
-            <td>
-              <a th:href="@{/veiculos/{veiculoId}(veiculoId = ${veiculo.id})}"
-                >Propostas</a
-              >
-            </td>
-            <td>
-              <a
-                th:href="@{/veiculos/{veiculoId}/editar(veiculoId = ${veiculo.id})}"
-                >Editar</a
-              >
-            </td>
-            <td>
-              <a
-                th:href="@{/veiculos/{veiculoId}/excluir(veiculoId = ${veiculo.id})}"
-                >Excluir</a
-              >
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div>
-        <a href="/veiculos/cadastrar">Adicionar Veiculo</a>
+<header>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Leilão de Veículos</a>
       </div>
+      <ul class="nav navbar-nav">
+        <li><a href="#">Home</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+      </ul>
     </div>
-  </body>
+  </nav>
+</header>
+
+<body>
+
+  <div>
+    <span th:text="${param.mensagem != null ? param.mensagem : ''}">MENSAGEM ERRO</span>
+
+    <table class="table table-hover table-bordered">
+      <thead>
+        <tr class="info">
+          <th scope="col">ID</th>
+          <th scope="col">Placa</th>
+          <th scope="col">Ano</th>
+          <th scope="col">Quilometragem</th>
+          <th scope="col">Valor</th>
+          <th scope="col">Propostas</th>
+          <th scope="col">Editar</th>
+          <th scope="col">Excluir</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="veiculo : ${veiculos}">
+          <th scope="row" th:text="${veiculo.getId()}">ID</th>
+          <td th:text="${veiculo.placa}">Placa</td>
+          <td th:text="${veiculo.ano}">Ano</td>
+          <td th:text="${veiculo.quilometragem}">Quilometragem</td>
+          <td th:text="${veiculo.valor}">Valor</td>
+          <td>
+            <button class="btn btn-primary btn-sm"
+              th:href="@{/veiculos/{veiculoId}(veiculoId = ${veiculo.id})}">Propostas</button>
+          </td>
+          <td>
+            <button type="submit" class="btn btn-primary btn-sm"
+              th:href="@{/veiculos/{veiculoId}/editar(veiculoId = ${veiculo.id})}">Editar</button>
+          </td>
+          <td>
+            <button type="submit" class="btn btn-primary btn-sm"
+              th:href="@{/veiculos/{veiculoId}/excluir(veiculoId = ${veiculo.id})}">Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="col-sm-5"></div>
+    <button type="submit" class="btn btn-primary" href="/veiculos/cadastrar">Adicionar Veiculo</button>
+  </div>
+</body>
+
 </html>

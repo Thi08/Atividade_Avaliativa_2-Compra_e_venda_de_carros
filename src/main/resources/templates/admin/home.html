@@ -2,28 +2,45 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Painel administrativo</title>
+    <meta charset="UFT-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Painel Administrativo</title>
 </head>
 
-<body>
-    <div class="ferramentas de criacao">
-        <a href="/admin/user">Criar usuários</a>
-        <a href="/admin/loja">Criar lojas</a>
-    </div>
+<header>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Leilão de Veículos</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="#">Home</a></li>
+                <li><a type="submit" href="/admin/user">Criar usuários</a></li>
+                <li><a type="submit" href="/admin/loja">Criar lojas</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
 
+<body>
     <div th:if="${users.size() > 0}">
         <h3>Usuários:</h3>
-        <table>
+        <table class="table table-hover table-bordered">
             <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Email</th>
-                    <th>CPF</th>
-                    <th>Tipo de usuário</th>
-                    <th>Gênero</th>
-                    <th colspan="2">Opções</th>
+                <tr class="info">
+                    <th scope="col">ID</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">CPF</th>
+                    <th scope="col">Tipo de usuário</th>
+                    <th scope="col">Gênero</th>
+                    <th scope="col" colspan="2">Opções</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,8 +51,14 @@
                     <td th:text="${user.cpf}"></td>
                     <td th:text="${user.tipo}"></td>
                     <td th:text="${user.sexo}"></td>
-                    <td> <a th:href="@{/admin/user/{userId} (userId = ${user.id})}">Editar usuário</a> </td>
-                    <td> <a th:href="@{/admin/user/delete/{userId} (userId = ${user.id})}">Remover usuário</a> </td>
+                    <td>
+                        <button type="submit" class="btn btn-primary btn-sm"
+                            th:href="@{/admin/user/{userId} (userId = ${user.id})}">Editar usuário</button>
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-primary btn-sm"
+                            th:href="@{/admin/user/delete/{userId} (userId = ${user.id})}">Remover usuário</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -43,15 +66,15 @@
 
     <div th:if="${stores.size() > 0}">
         <h3>Lojas:</h3>
-        <table th:if="${stores.size() > 0}">
+        <table class="table table-hover table-bordered" th:if="${stores.size() > 0}">
             <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Email</th>
-                    <th>CNPJ</th>
-                    <th>Descrição</th>
-                    <th colspan="2">Opções</th>
+                <tr class="info">
+                    <th scope="col">ID</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">CNPJ</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col" colspan="2">Opções</th>
                 </tr>
             </thead>
             <tbody>
@@ -61,14 +84,18 @@
                     <td th:text="${loja.email}"></td>
                     <td th:text="${loja.cnpj}"></td>
                     <td th:text="${loja.descricao}"></td>
-                    <td> <a th:href="@{/admin/loja/{lojaId} (lojaId = ${loja.id})}">Editar loja</a> </td>
-                    <td> <a th:href="@{/admin/loja/delete/{lojaId} (lojaId = ${loja.id})}">Remover loja</a> </td>
+                    <td>
+                        <button type="submit" class="btn btn-primary btn-sm"
+                            th:href="@{/admin/loja/{lojaId} (lojaId = ${loja.id})}">Editar loja</button>
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-primary btn-sm"
+                            th:href="@{/admin/loja/delete/{lojaId} (lojaId = ${loja.id})}">Remover loja</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
-
-
 </body>
 
 </html>
