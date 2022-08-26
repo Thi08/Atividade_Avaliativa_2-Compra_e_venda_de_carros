@@ -14,12 +14,12 @@
     <div>
       <div>
         <div>
-          <b>Fotos:</b>
-          <img
-            width="200px"
-            th:src="@{/veiculos/imagem/{fotos} (fotos = ${veiculo.fotos})}"
-            alt="Fotos do carro"
-          /><br />
+          <b>Fotos:</b
+          ><a
+            th:href="@{/veiculos/{veiculoId}/imagens (veiculoId = ${veiculo.id})}"
+            >Ver Imagens</a
+          ><br />
+          <!-- <img width="200px" src="#" alt="Fotos do carro" /><br /> -->
           <b>Placa:</b> <span th:text="${veiculo.placa}"></span><br />
           <b>Modelo:</b> <span th:text="${veiculo.modelo}"></span><br />
           <b>Chassi:</b> <span th:text="${veiculo.chassi}"></span><br />

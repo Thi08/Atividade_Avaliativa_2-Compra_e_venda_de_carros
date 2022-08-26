@@ -1,0 +1,92 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UFT-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Imagens</title>
+  </head>
+
+  <style>
+    table,
+    th,
+    td {
+      border: 1px solid black;
+      margin: auto;
+    }
+  </style>
+
+  <body>
+    <div>
+      <span th:text="${param.mensagem != null ? param.mensagem : ''}"
+        >MENSAGEM ERRO</span
+      >
+    </div>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Imagem 1</th>
+            <th>Imagem 2</th>
+            <th>Imagem 3</th>
+            <th>Imagem 4</th>
+            <th>Imagem 5</th>
+            <th>Imagem 6</th>
+            <th>Imagem 7</th>
+            <th>Imagem 8</th>
+            <th>Imagem 9</th>
+            <th>Imagem 10</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="veiculo : ${veiculo}">
+            <th scope="row" th:text="${veiculo.getId()}">ID</th>
+            <td>
+              <img width="100px" th:src="${veiculo.path}" />
+            </td>
+            <br />
+            <td>
+              <img width="100px" th:src="${veiculo.path2}" />
+            </td>
+            <td>
+              <img width="100px" th:src="${veiculo.path3}" />
+            </td>
+            <td>
+              <img width="100px" th:src="${veiculo.path4}" />
+            </td>
+            <td>
+              <img width="100px" th:src="${veiculo.path5}" />
+            </td>
+            <td>
+              <img width="100px" th:src="${veiculo.path6}" />
+            </td>
+            <td>
+              <img width="100px" th:src="${veiculo.path7}" />
+            </td>
+            <td>
+              <img width="100px" th:src="${veiculo.path8}" />
+            </td>
+            <td>
+              <img width="100px" th:src="${veiculo.path9}" />
+            </td>
+            <td>
+              <img width="100px" th:src="${veiculo.path10}" />
+            </td>
+            <td>
+              <a
+                th:href="@{/veiculos/{veiculoId}/novaImagem (veiculoId = ${veiculo.id})}"
+                >Editar Imagens</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div>
+        <a th:href="@{/veiculos/{veiculoId} (veiculoId = ${veiculo.id})}"
+          >Voltar</a
+        >
+      </div>
+    </div>
+  </body>
+</html>

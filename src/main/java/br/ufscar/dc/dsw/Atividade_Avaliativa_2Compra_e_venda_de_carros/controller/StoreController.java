@@ -28,8 +28,6 @@ import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.Ve
 @RequestMapping("/veiculos")
 public class StoreController {
 
-    private static String caminhoFotos = "/home/blp/Atividade_Avaliativa_2-Compra_e_venda_de_carros/src/main/resources/static/images/";
-
     @Autowired
     private IVeiculoDAO iVeiculoDAO;
 
@@ -51,26 +49,12 @@ public class StoreController {
 
     // Salva os veiculo cadastrado caso não haja erro
     @PostMapping("")
-    public String cadastrado(@Valid Veiculo veiculo, BindingResult bindingResult,
-            @RequestParam("file") MultipartFile arquivo) {
+    public String cadastrado(@Valid Veiculo veiculo, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return "store/cadastro";
         } else {
             this.iVeiculoDAO.save(veiculo);
-            try {
-                if (!arquivo.isEmpty()) {
-                    byte[] bytes = arquivo.getBytes();
-                    Path caminho = Paths
-                            .get(caminhoFotos + String.valueOf(veiculo.getId()) + arquivo.getOriginalFilename());
-                    Files.write(caminho, bytes);
-
-                    veiculo.setFotos(String.valueOf(veiculo.getId()) + arquivo.getOriginalFilename());
-                    this.iVeiculoDAO.save(veiculo);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
             return "redirect:veiculos";
         }
@@ -114,8 +98,7 @@ public class StoreController {
 
     // Salva o Veiculo editado caso não haja erro
     @PostMapping("/{id}")
-    public ModelAndView editado(@PathVariable Long id, @Valid Veiculo veiculo, BindingResult bindingResult,
-            @RequestParam("file") MultipartFile arquivo) {
+    public ModelAndView editado(@PathVariable Long id, @Valid Veiculo veiculo, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             ModelAndView mv = new ModelAndView("store/editar");
@@ -126,20 +109,7 @@ public class StoreController {
 
             if (optional.isPresent()) {
                 veiculo = veiculo.toVeiculo(optional.get());
-
-                try {
-                    if (!arquivo.isEmpty()) {
-                        byte[] bytes = arquivo.getBytes();
-                        Path caminho = Paths
-                                .get(caminhoFotos + String.valueOf(veiculo.getId()) + arquivo.getOriginalFilename());
-                        Files.write(caminho, bytes);
-
-                        veiculo.setFotos(String.valueOf(veiculo.getId()) + arquivo.getOriginalFilename());
-                        this.iVeiculoDAO.save(veiculo);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                this.iVeiculoDAO.save(veiculo);
 
                 return new ModelAndView("redirect:/veiculos/" + veiculo.getId());
 
@@ -168,14 +138,83 @@ public class StoreController {
         return mv;
     }
 
-    @GetMapping("/imagem/{fotos}")
-    @ResponseBody
-    public byte[] imagem(@PathVariable("fotos") String fotos) throws IOException {
-        File fotoVeiculo = new File(caminhoFotos + fotos);
-        if (fotos != null || fotos.trim().length() > 0) {
+    // ******************IMAGENS*******************
 
-            return Files.readAllBytes(fotoVeiculo.toPath());
+    // Lista as imagens cadastrados
+    @GetMapping("{id}/imagens")
+    public ModelAndView listarImagem(@PathVariable Long id) {
+        Optional<Veiculo> optional = this.iVeiculoDAO.findById(id);
+
+        if (optional.isPresent()) {
+            Veiculo veiculo = optional.get();
+            ModelAndView mv = new ModelAndView("imagem/index");
+            mv.addObject("veiculo", veiculo);
+
+            return mv;
         }
-        return null;
+        // Caso não encontre um registo na tabela
+        else {
+            return new ModelAndView("redirect:/veiculos");
+        }
     }
+
+    // Cadastra novas imagens
+    @GetMapping("/{id}/novaImagem")
+    public ModelAndView cadastrarImagem(@PathVariable Long id, Veiculo veiculo) {
+        Optional<Veiculo> optional = this.iVeiculoDAO.findById(id);
+
+        if (optional.isPresent()) {
+            veiculo = optional.get();
+            ModelAndView mv = new ModelAndView("imagem/cadastro");
+            mv.addObject("veiculo", veiculo);
+
+            return mv;
+        }
+        // Caso não encontre um registo na tabela
+        else {
+            return new ModelAndView("redirect:/veiculos");
+        }
+    }
+
+    // Salva as imagens
+    @PostMapping("/{id}/imagens")
+    public ModelAndView salvarImagem(@PathVariable Long id, Veiculo veiculo, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            ModelAndView mv = new ModelAndView("imagem/cadastro");
+            return mv;
+
+        } else {
+            Optional<Veiculo> optional = this.iVeiculoDAO.findById(id);
+
+            if (optional.isPresent()) {
+                veiculo = veiculo.toPath(optional.get());
+                this.iVeiculoDAO.save(veiculo);
+
+                return new ModelAndView("redirect:/veiculos/" + veiculo.getId() + "/imagens");
+
+            } else {
+                return new ModelAndView("redirect:/veiculos");
+            }
+        }
+    }
+
+    // Exibi os detalhes do carro após adicionar imagens
+    @GetMapping("/{id}/ok")
+    public ModelAndView ok(@PathVariable Long id) {
+        Optional<Veiculo> optional = this.iVeiculoDAO.findById(id);
+
+        if (optional.isPresent()) {
+            Veiculo veiculo = optional.get();
+            ModelAndView mv = new ModelAndView("store/detalhes");
+            mv.addObject("veiculo", veiculo);
+
+            return mv;
+        }
+        // Caso não encontre um registo na tabela
+        else {
+            return new ModelAndView("redirect:/veiculos");
+        }
+    }
+
 }

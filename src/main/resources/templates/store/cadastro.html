@@ -39,7 +39,7 @@
                 <!-- <th:set var="loja" value="${requestScope.loja}" />
                 <th:set var="usuario" value="${requestScope.usuario}" /> -->
 
-                <form enctype="multipart/form-data" th:object="${veiculo}" class="formulario_de_loja" method="post" action="/veiculos">
+                <form th:object="${veiculo}" class="formulario_de_loja" method="post" action="/veiculos">
                     <fieldset>
                         <legend>Cadastro de veículos</legend>
 
@@ -82,10 +82,6 @@
                         <label>Valor
                             <input id="valor" type="number" th:field="*{valor}" placeholder="20000,00"
                                 onkeypress="if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;">
-                        </label>
-
-                        <label>
-                            <input id="fotos" type="file" name="file" multiple="multiple">
                         </label>
 
                         <button type="submit" id="botao">
