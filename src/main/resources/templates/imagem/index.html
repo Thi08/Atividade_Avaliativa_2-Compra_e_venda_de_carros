@@ -12,7 +12,7 @@
         overflow: hidden;
       }
         .imagens {
-            width: 100px;
+            width:"100px";
         }
         .table{
             margin-left: 2%;
@@ -58,13 +58,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="imagens" th:each="veiculo : ${veiculo}">
-                    <td scope="row" th:text="{veiculo.getId()}"></td>
-                    <td><img th:src="${veiculo.path}" /></td>
-                    <td><img th:src="${veiculo.path2}" /></td>
-                    <td><img th:src="${veiculo.path3}" /></td>
-                    <td><img th:src="${veiculo.path4}" /></td>
-                    <td><img th:src="${veiculo.path5}" /></td>
+                <tr th:each="veiculo : ${veiculo}">
+                    <td scope="row" th:text="${veiculo.id}">ID</td>
+                    <td><img width="100px" th:src="${veiculo.path}" /></td>
+                    <td><img width="100px" th:src="${veiculo.path2}" /></td>
+                    <td><img width="100px" th:src="${veiculo.path3}" /></td>
+                    <td><img width="100px" th:src="${veiculo.path4}" /></td>
+                    <td><img width="100px" th:src="${veiculo.path5}" /></td>
                 </tr>
             </tbody>
         </table>
@@ -80,12 +80,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="imagens" th:each="veiculo : ${veiculo}">
-                    <td><img th:src="${veiculo.path6}" /></td>
-                    <td><img th:src="${veiculo.path7}" /></td>
-                    <td><img th:src="${veiculo.path8}" /></td>
-                    <td><img th:src="${veiculo.path9}" /></td>
-                    <td><img th:src="${veiculo.path10}" /></td>
+                <tr th:each="veiculo : ${veiculo}">
+                    <td><img width="100px" th:src="${veiculo.path6}" /></td>
+                    <td><img width="100px" th:src="${veiculo.path7}" /></td>
+                    <td><img width="100px" th:src="${veiculo.path8}" /></td>
+                    <td><img width="100px" th:src="${veiculo.path9}" /></td>
+                    <td><img width="100px" th:src="${veiculo.path10}" /></td>
                 </tr>
             </tbody>
         </table>
@@ -93,12 +93,12 @@
 
     <div class="form-group">
         <div class="col-sm-offset-5 col-sm-10">
-            <button type="submit" class="btn btn-primary btn-sm">
-                Editar imagens
-            </button>
-            <button type="submit" class="btn btn-primary btn-sm">
-                Voltar
-            </button>
+            <form th:action="@{/veiculos/{veiculoId}/novaImagem (veiculoId = ${veiculo.id})}">
+                <button type="submit" class="btn btn-primary btn-sm">Editar imagens</button>
+            </form>
+            <form th:action="@{/veiculos/{veiculoId} (veiculoId = ${veiculo.id})}">
+                <button type="submit" class="btn btn-primary btn-sm">Voltar</button>
+            </form>
         </div>
     </div>
 

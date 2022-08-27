@@ -60,7 +60,7 @@
             <td th:text="${veiculo.valor}">Valor</td>
             <td>
               <form
-                th:ction="@{/veiculos/{veiculoId} (veiculoId = ${veiculo.id})}"
+                th:action="@{/veiculos/{veiculoId} (veiculoId = ${veiculo.id})}"
                 method="get"
               >
                 <button type="submit" class="btn btn-primary btn-sm">
@@ -70,7 +70,7 @@
             </td>
             <td>
               <form
-                th:ction="@{/veiculos/{veiculoId}/editar (veiculoId = ${veiculo.id})}"
+                th:action="@{/veiculos/{veiculoId}/editar (veiculoId = ${veiculo.id})}"
                 method="get"
               >
                 <button type="submit" class="btn btn-primary btn-sm">
@@ -80,7 +80,7 @@
             </td>
             <td>
               <form
-                th:ction="@{/veiculos/{veiculoId}/excluir (veiculoId = ${veiculo.id})}"
+                th:action="@{/veiculos/{veiculoId}/excluir (veiculoId = ${veiculo.id})}"
                 method="get"
               >
                 <button type="submit" class="btn btn-primary btn-sm">

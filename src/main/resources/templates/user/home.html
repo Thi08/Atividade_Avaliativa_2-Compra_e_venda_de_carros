@@ -18,25 +18,62 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>Leilão de veículos</title>
     <style>
-      .container {
-        margin-top: 4%;
-      }
 
-      .carousel-inner {
-        height: 69vh;
+      /* *******ANTIGO******* */
+      .card {
+        border: 2px solid #333;
+        border-radius: 2%;
+        background-color: #fffaf2;
+        padding: 10px 0px;
+        color: #112506;
+        width: 300px;
       }
-
-      .carousel-inner img {
-        width: 100%;
+      .card-header {
+        text-align: center;
+        color: #010101;
       }
-
-      .corpo {
+      .card-header h3 {
+        border-bottom: 2px solid #333;
+      }
+      .card-body ul {
+        padding: 0;
+        margin: 0 10px;
+      }
+      .card-body li {
+        list-style: none;
+        padding: 20px 20px 0 20px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        border-bottom: 2pxsolid#06d974;
+      }
+      .card-footer {
+        text-align: center;
+        padding: 15px 0;
+        margin-top: 20px;
+        margin-bottom: 10px;
+      }
+      .card-footer a {
+        text-decoration: none;
+        border: none;
+        background-color: #06d974;
+        color: #fff;
+        padding: 20px 30px;
+        font-weight: bold;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+      }
+      .btn {
+        background-color: #06d974;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+      }
+      #body-content {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         flex-wrap: wrap;
-        box-shadow: 0px 0px 5px rgb(0 0 0 / 35%);
-        border-radius: 10px;
-        width: 75%;
       }
     </style>
   </head>
@@ -87,34 +124,42 @@
 
     <h1 align="center">Veículos Disponíveis</h1>
 
-    <div class="corpo" th:each="veiculo : ${listaVeiculos}">
-      <div class="carros">
-        <div class="header-carros">
-          <img width="200px" th:src="${veiculo.path}" alt="Fotos do carro" />
-          <h3><b>Modelo:</b> <span th:text="${veiculo.modelo}"></span></h3>
-        </div>
-        <div class="info-carros">
-          <ul>
-            <li><b>Placa:</b> <span th:text="${veiculo.placa}"></span></li>
-            <li><b>Ano:</b> <span th:text="${veiculo.ano}"></span></li>
-            <li>
-              <b>Quilometragem:</b>
-              <span th:text="${veiculo.quilometragem}"></span>
-            </li>
-            <li>
-              <b>Descrição:</b> <span th:text="${veiculo.descricao}"></span>
-            </li>
+    <div id="body-content">
+      <div th:each="veiculo : ${listaVeiculos}">
+        <div class="card">
+          <div class="card-header">
+            <img width="200px" th:src="${veiculo.path}" />
+            <h3><b>Modelo:</b> <span th:text="${veiculo.modelo}"></span></h3>
+          </div>
+          <div class="card-body">
+            <ul>
+              <li><b>Placa:</b> <span th:text="${veiculo.placa}"></span></li>
 
-            <li>
-              <b>Valor do Veiculo:</b> <span th:text="${veiculo.valor}"></span>
-            </li>
-          </ul>
-        </div>
+              <li><b>Ano:</b> <span th:text="${veiculo.ano}"></span></li>
 
-        <div class="fazer-proposta">
-          <a href="#" class="btn">Fazer proposta</a>
+              <li>
+                <b>Quilometragem:</b>
+                <span th:text="${veiculo.quilometragem}"></span>
+              </li>
+
+              <li>
+                <b>Descrição:</b> <span th:text="${veiculo.descricao}"></span>
+              </li>
+
+              <li><b>Loja:</b><span th:text="${veiculo.lojaCNPJ}"></li>
+
+              <li>
+                <b>Valor do Veiculo:</b> <span th:text="${veiculo.valor}"></span>
+              </li>
+            </ul>
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn">Fazer proposta</a>
+          </div>
         </div>
       </div>
     </div>
+
+
   </body>
 </html>

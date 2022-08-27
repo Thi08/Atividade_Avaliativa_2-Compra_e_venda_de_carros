@@ -155,7 +155,7 @@ public class StoreController {
         }
     }
 
-    // Cadastra novas imagens
+    // Cadastra e edita as imagens
     @GetMapping("/{id}/novaImagem")
     public ModelAndView cadastrarImagem(@PathVariable Long id, Veiculo veiculo) {
         Optional<Veiculo> optional = this.iVeiculoDAO.findById(id);

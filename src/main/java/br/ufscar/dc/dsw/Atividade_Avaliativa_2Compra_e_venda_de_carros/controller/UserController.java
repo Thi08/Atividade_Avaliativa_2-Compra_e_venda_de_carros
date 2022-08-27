@@ -15,12 +15,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.IPropostaDAO;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.IUserDAO;
+import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.IVeiculoDAO;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.Proposta;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.User;
 
 @Controller
 @RequestMapping("/usuario")
 public class UserController {
+
+    @Autowired
+    private IVeiculoDAO iVeiculoDAO;
 
     @Autowired
     IPropostaDAO propostaDAO;
@@ -34,6 +38,7 @@ public class UserController {
         User user = userDAO.findByEmail(auth.getName());
         List<Proposta> propostasFeitas = propostaDAO.findAllByUsuario(user);
         mv.addObject("propostas", propostasFeitas);
+        mv.addObject("listaVeiculos", iVeiculoDAO.findAll());
         return mv;
     }
 

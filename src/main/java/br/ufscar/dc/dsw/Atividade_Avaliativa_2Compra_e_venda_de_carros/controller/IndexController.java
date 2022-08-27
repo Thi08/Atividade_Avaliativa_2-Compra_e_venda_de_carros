@@ -7,10 +7,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.IUserDAO;
+import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.IVeiculoDAO;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.User;
 
 @Controller
 public class IndexController {
+
+    @Autowired
+    private IVeiculoDAO iVeiculoDAO;
 
     @Autowired
     IUserDAO userDAO;
@@ -33,7 +37,7 @@ public class IndexController {
                 case "ROLE_ADMIN":
                     return "redirect:/admin";
                 case "ROLE_STORE":
-                    return "redirect:/loja";
+                    return "redirect:/veiculos";
                 case "ROLE_USER":
                     return "redirect:/usuario";
             }

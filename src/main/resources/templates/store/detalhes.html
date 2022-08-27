@@ -31,7 +31,7 @@
         text-align: center;
       }
     </style>
-    <title>Propostas</title>
+    <title>Detalhes</title>
   </head>
   <header>
     <nav class="navbar navbar-inverse">
@@ -62,20 +62,18 @@
 
     <div class="container col-lg-6">
       <h2>Detalhes</h2>
-      <form class="form-horizontal">
-        <div class="form-group">
-          <label for="imagens" class="control-label col-sm-2">Fotos:</label>
-          <div class="col-sm-offset-2 col-sm-10" style="margin-top: -2%">
-            <button
-              type="submit"
-              class="btn btn-primary btn-sm"
-              th:ref="@{veiculos/{veiculoId}/imagens (veiculoId = ${veiculo.id})}"
-            >
-              Ver imagens
-            </button>
-          </div>
-        </div>
 
+      <form
+        th:action="@{/veiculos/{veiculoId}/imagens (veiculoId = ${veiculo.id})}"
+        method="get"
+        style="margin-bottom: 2%"
+      >
+        <button type="submit" class="btn btn-primary btn-sm">
+          Ver imagens
+        </button>
+      </form>
+
+      <form class="form-horizontal">
         <div class="form-group">
           <label for="modelo" class="control-label col-sm-2">Placa:</label>
           <div class="col-sm-10">
@@ -126,18 +124,19 @@
             <span th:text="${veiculo.descricao}">Descricao</span>
           </div>
         </div>
-
-        <div class="form-group">
-          <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-primary" href="#">
-              Ver Propostas
-            </button>
-            <button type="submit" class="btn btn-primary" href="#">
-              Voltar
-            </button>
-          </div>
-        </div>
       </form>
+      <div class="form-group">
+        <div class="col-sm-10">
+          <form action="#" method="get">
+            <button type="submit" class="btn btn-primary btn-sm">
+              Propostas
+            </button>
+          </form>
+          <form th:action="@{/veiculos/}" method="get">
+            <button type="submit" class="btn btn-primary btn-sm">Voltar</button>
+          </form>
+        </div>
+      </div>
     </div>
   </body>
 </html>
