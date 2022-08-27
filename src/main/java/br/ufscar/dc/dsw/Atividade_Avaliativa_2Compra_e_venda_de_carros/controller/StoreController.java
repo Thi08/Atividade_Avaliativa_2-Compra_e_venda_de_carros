@@ -47,11 +47,11 @@ public class StoreController {
     public String cadastrado(@Valid Veiculo veiculo, BindingResult bindingResult, RedirectAttributes attr) {
 
         if (bindingResult.hasErrors()) {
-            return "store/cadastro";
+            return "store/cadastrar";
         } else {
             this.iVeiculoDAO.save(veiculo);
             attr.addFlashAttribute("sucess", "Cadastro de veículos feito com sucesso");
-            return "redirect:veiculos";
+            return "redirect:/veiculos";
         }
     }
 

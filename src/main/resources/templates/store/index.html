@@ -59,30 +59,34 @@
             <td th:text="${veiculo.quilometragem}">Quilometragem</td>
             <td th:text="${veiculo.valor}">Valor</td>
             <td>
-              <button
-                class="btn btn-primary btn-sm"
-                th:href="@{/veiculos/{veiculoId}(veiculoId = ${veiculo.id})}"
+              <form
+                th:ction="@{/veiculos/{veiculoId} (veiculoId = ${veiculo.id})}"
+                method="get"
               >
-                Propostas
-              </button>
+                <button type="submit" class="btn btn-primary btn-sm">
+                  Detalhes
+                </button>
+              </form>
             </td>
             <td>
-              <button
-                type="submit"
-                class="btn btn-primary btn-sm"
-                th:href="@{/veiculos/{veiculoId}/editar(veiculoId = ${veiculo.id})}"
+              <form
+                th:ction="@{/veiculos/{veiculoId}/editar (veiculoId = ${veiculo.id})}"
+                method="get"
               >
-                Editar
-              </button>
+                <button type="submit" class="btn btn-primary btn-sm">
+                  Editar
+                </button>
+              </form>
             </td>
             <td>
-              <button
-                type="submit"
-                class="btn btn-primary btn-sm"
-                th:href="@{/veiculos/{veiculoId}/excluir(veiculoId = ${veiculo.id})}"
+              <form
+                th:ction="@{/veiculos/{veiculoId}/excluir (veiculoId = ${veiculo.id})}"
+                method="get"
               >
-                Excluir
-              </button>
+                <button type="submit" class="btn btn-primary btn-sm">
+                  Excluir
+                </button>
+              </form>
             </td>
           </tr>
         </tbody>
