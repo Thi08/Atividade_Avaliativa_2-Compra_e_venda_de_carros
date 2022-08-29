@@ -1,5 +1,6 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-<html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
     <meta charset="UTF-8" />
@@ -22,25 +23,35 @@
         .carousel-inner img {
             width: 100%;
         }
+
+        .corpo {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            box-shadow: 0px 0px 5px rgb(0 0 0 / 35%);
+            border-radius: 10px;
+            width: 75%;
+        }
     </style>
 </head>
 
+<div th:if="${typeUser == null}">
+    <header th:replace="~{fragmentos::navigationWithOutLogin}"></header>
+</div>
+
+<div th:if="${typeUser != null && typeUser == 'ROLE_ADMIN'}">
+    <header th:replace="~{fragmentos::navigationAdmin}"></header>
+</div>
+
+<div th:if="${typeUser != null && typeUser == 'ROLE_USER'}">
+    <header th:replace="~{fragmentos::navigationUser}"></header>
+</div>
+
+<div th:if="${typeUser != null && typeUser == 'ROLE_STORE'}">
+    <header th:replace="~{fragmentos::navigationLoja}"></header>
+</div>
+
 <body>
-
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">Leilão de Veículos</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li><a href="#">Home</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-            </ul>
-        </div>
-    </nav>
-
     <div class="header text-center">
         <h2>Seja bem-vindo <span></span>!</h2>
         <h3>Compre aqui seus veículos no menor preço do mercado.</h3>
@@ -82,6 +93,30 @@
         </div>
     </div>
 
+    <h1 align="center">Veículos Disponíveis</h1>
+
+    <div th:if="${carros.size() > 0}">
+        <div th:each="carro : ${carros}">
+            <li>
+                <img th:src="${carro.path}" alt="Carro 1" style="width: 10%;">
+            </li>
+            <li>
+                <b>Descrição:</b> <span th:text="${carro.descricao}"></span>
+            </li>
+
+            <li><b>Loja:</b><span th:text="${carro.loja.cnpj}"></li>
+
+            <li>
+                <b>Valor do Veiculo:</b> <span th:text="${carro.valor}"></span>
+            </li>
+            </ul>
+            <div class="card-footer">
+                <form th:action="@{/usuario/proposta/{idVeic} (idVeic = ${carro.id})}" method="get">
+                    <button class="btn" type="submit">Fazer proposta</a>
+                </form>
+            </div>
+        </div>
+    </div>
 
 </body>
 

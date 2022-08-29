@@ -65,7 +65,7 @@ public class AdminController {
     }
 
     @GetMapping("/usuario/{id}")
-    public ModelAndView formEdicaoUser(@PathVariable("id") long id) {
+    public ModelAndView formEdicaoUser(Costumer costumer, @PathVariable("id") long id) {
         ModelAndView mv = new ModelAndView("admin/formEdicaoUser");
         Costumer user = this.costumerDAO.getReferenceById(id);
         mv.addObject("user", user);
@@ -105,7 +105,6 @@ public class AdminController {
     @PostMapping("/loja")
     public String cadastraLoja(@Valid StoreDTO loja, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            System.out.println(result.toString());
             model.addAttribute("error", "Verifique o dados inseridos");
             return "admin/formLoja";
         } else {
@@ -124,10 +123,11 @@ public class AdminController {
     }
 
     @GetMapping("/loja/{id}")
-    public String formEdicaoLoja(Model model, @PathVariable("id") long id) {
+    public ModelAndView formEdicaoLoja(Store store, @PathVariable("id") long id) {
         Store loja = this.storeDAO.getReferenceById(id);
-        model.addAttribute("loja", loja);
-        return "admin/formEdicaoLoja";
+        ModelAndView mv = new ModelAndView("admin/formEdicaoLoja");
+        mv.addObject("loja", loja);
+        return mv;
     }
 
     @PostMapping("/loja/{id}")

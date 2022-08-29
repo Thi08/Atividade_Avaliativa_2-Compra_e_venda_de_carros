@@ -1,6 +1,7 @@
 package br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -9,10 +10,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.ICostumerDAO;
+import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.IPropostaDAO;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.IStoreDAO;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.IUserDAO;
+import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.IVeiculoDAO;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.Costumer;
+import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.Proposta;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.Store;
+import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.Veiculo;
 
 @SpringBootApplication
 public class AtividadeAvaliativa2CompraEVendaDeCarrosApplication {
@@ -23,7 +28,7 @@ public class AtividadeAvaliativa2CompraEVendaDeCarrosApplication {
 
 	@Bean
 	public CommandLineRunner demo(IUserDAO userDAO, IStoreDAO storeDAO, ICostumerDAO costumerDAO,
-			BCryptPasswordEncoder encoder) {
+			BCryptPasswordEncoder encoder, IVeiculoDAO veiculoDAO, IPropostaDAO propostaDAO) {
 		return (args) -> {
 			Costumer admin = new Costumer();
 			admin.setCpf("20193834932");
@@ -55,6 +60,26 @@ public class AtividadeAvaliativa2CompraEVendaDeCarrosApplication {
 			user.setTelefone("11970707071");
 			user.setTipo("ROLE_USER");
 			costumerDAO.save(user);
+
+			Veiculo veic = new Veiculo();
+			veic.setPlaca("ABC12345");
+			veic.setQuilometragem(200);
+			veic.setValor(20000);
+			veic.setAno(2002);
+			veic.setChassi("FGTW2022");
+			veic.setDescricao("O carro do ano");
+			veic.setLoja(loja);
+			veic.setModelo("Tiggo T Turbo");
+			veiculoDAO.save(veic);
+
+			Proposta prop = new Proposta();
+			prop.setData_proposta(Date.valueOf(LocalDate.now()));
+			prop.setModo_de_pagamento("A vista");
+			prop.setPreco((long) 20000);
+			prop.setStatus("ABERTO");
+			prop.setUsuario(user);
+			prop.setVeiculo(veic);
+			propostaDAO.save(prop);
 		};
 
 	}

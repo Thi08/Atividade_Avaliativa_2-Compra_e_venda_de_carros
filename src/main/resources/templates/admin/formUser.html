@@ -27,31 +27,14 @@
     <title>Cadastro de usuário</title>
 </head>
 
-<header>
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">Leilão de Veículos</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li><a href="#">Home</a></li>
-                <li><a type="submit" href="/admin/user">Criar usuários</a></li>
-                <li><a type="submit" href="/admin/loja">Criar lojas</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-            </ul>
-        </div>
-    </nav>
-</header>
+<header th:replace="~{fragmentos::navigationAdmin}"></header>
 
 <body>
 
     <div th:if="${error}" th:replace="~{fragmentos::errors(${error})}"></div>
     <div class="container col-lg-6">
         <h2>Cadastro de usuário</h2>
-        <form class="form-horizontal" method="POST" th:action="@{/admin/user/{userId} (userId = ${user.id})}"
-            th:object="${user}">
+        <form class="form-horizontal" method="POST" th:action="@{/admin/usuario}" th:object="${costumer}">
             <div class="form-group">
                 <label for="email" class="control-label col-sm-2">Email:</label>
                 <div class="col-sm-10">
