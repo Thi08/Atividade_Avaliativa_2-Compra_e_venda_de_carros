@@ -11,8 +11,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "veiculo")
@@ -24,6 +26,7 @@ public class Veiculo {
 
   @NotNull
   @NotBlank
+  @Size(max = 8)
   @Column(nullable = false, length = 8, unique = true)
   private String placa;
 
@@ -38,6 +41,7 @@ public class Veiculo {
   private String chassi;
 
   @NotNull
+  @Max(value = 2022)
   @Column(nullable = false, length = 4)
   private int ano;
 
@@ -150,11 +154,11 @@ public class Veiculo {
     this.path10 = path10;
   }
 
-  public Store getLojaCNPJ() {
+  public Store getLoja() {
     return loja;
   }
 
-  public void setLojaCNPJ(Store lojaCNPJ) {
+  public void setLoja(Store lojaCNPJ) {
     this.loja = lojaCNPJ;
   }
 

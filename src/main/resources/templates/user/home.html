@@ -1,165 +1,47 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-<html
-  lang="pt-BR"
-  xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
->
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <title>Leilão de veículos</title>
-    <style>
+<html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
-      /* *******ANTIGO******* */
-      .card {
-        border: 2px solid #333;
-        border-radius: 2%;
-        background-color: #fffaf2;
-        padding: 10px 0px;
-        color: #112506;
-        width: 300px;
-      }
-      .card-header {
-        text-align: center;
-        color: #010101;
-      }
-      .card-header h3 {
-        border-bottom: 2px solid #333;
-      }
-      .card-body ul {
-        padding: 0;
-        margin: 0 10px;
-      }
-      .card-body li {
-        list-style: none;
-        padding: 20px 20px 0 20px;
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-        border-bottom: 2pxsolid#06d974;
-      }
-      .card-footer {
-        text-align: center;
-        padding: 15px 0;
-        margin-top: 20px;
-        margin-bottom: 10px;
-      }
-      .card-footer a {
-        text-decoration: none;
-        border: none;
-        background-color: #06d974;
-        color: #fff;
-        padding: 20px 30px;
-        font-weight: bold;
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-      }
-      .btn {
-        background-color: #06d974;
-        border: none;
-        color: white;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-      }
-      #body-content {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-      }
-    </style>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <title>Propostas de usuário</title>
+</head>
 
-  <header th:replace="~{fragmentos::navigationUser}"></header>
+<header th:replace="~{fragmentos::navigationUser}"></header>
 
-  <body>
-    <div class="header text-center">
-      <h2>Seja bem-vindo <span></span>!</h2>
-      <h3>Compre aqui seus veículos no menor preço do mercado.</h3>
-    </div>
+<body>
+  <div class="header text-center">
+    <h2>Seja bem-vindo!<span></span>!</h2>
+    <h3>Propostas</h3>
+  </div>
 
-    <div class="container">
-      <div id="myCarousel" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-          <li data-target="#myCarousel" data-slide-to="1"></li>
-          <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol>
+  <div th:if="${propostas.size() > 0}">
+    <table class="table table-hover table-bordered">
+      <thead>
+        <tr class="info">
+          <th scope="col">Carro</th>
+          <th scope="col">Valor</th>
+          <th scope="col">Condições de pagamento</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="proposta : ${propostas}">
+          <td th:text="${proposta.id}"></td>
+          <td th:text="${proposta.preco}"></td>
+          <td th:text="${proposta.modo_de_pagamento}"></td>
+          <td th:text="${proposta.status}"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner">
-          <div class="item active">
-            <img th:src="@{/images/index/mcLaren.jpg}" alt="Leilão1" />
-          </div>
+</body>
 
-          <div class="item">
-            <img th:src="@{/images/index/BMW320i.jpeg}" alt="Leilão2" />
-          </div>
-
-          <div class="item">
-            <img th:src="@{/images/index/Marquinhos.jpg}" alt="Leilão3" />
-          </div>
-        </div>
-
-        <!-- Left and right controls -->
-        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-          <span class="glyphicon glyphicon-chevron-left"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#myCarousel" data-slide="next">
-          <span class="glyphicon glyphicon-chevron-right"></span>
-          <span class="sr-only">Next</span>
-        </a>
-      </div>
-    </div>
-
-    <h1 align="center">Veículos Disponíveis</h1>
-
-    <div id="body-content">
-      <div th:each="veiculo : ${listaVeiculos}">
-        <div class="card">
-          <div class="card-header">
-            <img width="200px" th:src="${veiculo.path}" />
-            <h3><b>Modelo:</b> <span th:text="${veiculo.modelo}"></span></h3>
-          </div>
-          <div class="card-body">
-            <ul>
-              <li><b>Placa:</b> <span th:text="${veiculo.placa}"></span></li>
-
-              <li><b>Ano:</b> <span th:text="${veiculo.ano}"></span></li>
-
-              <li>
-                <b>Quilometragem:</b>
-                <span th:text="${veiculo.quilometragem}"></span>
-              </li>
-
-              <li>
-                <b>Descrição:</b> <span th:text="${veiculo.descricao}"></span>
-              </li>
-
-              <li><b>Loja:</b><span th:text="${veiculo.lojaCNPJ}"></li>
-
-              <li>
-                <b>Valor do Veiculo:</b> <span th:text="${veiculo.valor}"></span>
-              </li>
-            </ul>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="btn">Fazer proposta</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-  </body>
 </html>

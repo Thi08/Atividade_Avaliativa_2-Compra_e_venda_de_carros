@@ -105,7 +105,6 @@ public class AdminController {
     @PostMapping("/loja")
     public String cadastraLoja(@Valid StoreDTO loja, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            System.out.println(result.toString());
             model.addAttribute("error", "Verifique o dados inseridos");
             return "admin/formLoja";
         } else {

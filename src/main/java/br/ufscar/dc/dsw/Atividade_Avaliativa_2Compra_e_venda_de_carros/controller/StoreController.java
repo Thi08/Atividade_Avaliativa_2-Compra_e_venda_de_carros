@@ -7,7 +7,9 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.IPropostaDAO;
+import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.IStoreDAO;
+import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.IUserDAO;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.dao.IVeiculoDAO;
+import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.Proposta;
+import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.Store;
+import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.User;
 import br.ufscar.dc.dsw.Atividade_Avaliativa_2Compra_e_venda_de_carros.domain.Veiculo;
 
 @Controller
@@ -26,13 +34,25 @@ public class StoreController {
     @Autowired
     private IVeiculoDAO iVeiculoDAO;
 
+    @Autowired
+    private IStoreDAO storeDAO;
+
+    @Autowired
+    private IPropostaDAO propostaDAO;
+
+    @Autowired
+    private IUserDAO userDAO;
+
     // Lista os veiculos cadastrados
     @GetMapping("")
-    public ModelAndView listar() {
-        List<Veiculo> veiculos = this.iVeiculoDAO.findAll();
+    public ModelAndView listar(Authentication auth) {
         ModelAndView mv = new ModelAndView("store/index");
-        mv.addObject("veiculos", veiculos);
-
+        if (auth != null) {
+            User user = userDAO.findByEmail(auth.getName());
+            Store loja = storeDAO.findByEmail(user.getEmail());
+            List<Veiculo> veiculos = this.iVeiculoDAO.findAllByLoja(loja);
+            mv.addObject("veiculos", veiculos);
+        }
         return mv;
     }
 
@@ -44,14 +64,25 @@ public class StoreController {
 
     // Salva os veiculo cadastrado caso não haja erro
     @PostMapping("")
-    public String cadastrado(@Valid Veiculo veiculo, BindingResult bindingResult, RedirectAttributes attr) {
-
+    public String cadastrado(@Valid Veiculo veiculo, BindingResult bindingResult, RedirectAttributes attr,
+            Authentication auth, Model model) {
         if (bindingResult.hasErrors()) {
             return "store/cadastrar";
         } else {
-            this.iVeiculoDAO.save(veiculo);
-            attr.addFlashAttribute("sucess", "Cadastro de veículos feito com sucesso");
-            return "redirect:/veiculos";
+            if (auth != null) {
+                User user = userDAO.findByEmail(auth.getName());
+                Store loja = storeDAO.findByEmail(user.getEmail());
+                veiculo.setLoja(loja);
+            }
+            try {
+                this.iVeiculoDAO.save(veiculo);
+                attr.addFlashAttribute("sucess", "Cadastro de veículos feito com sucesso");
+                return "redirect:/veiculos";
+            } catch (Exception e) {
+                model.addAttribute("error", "Já existe um veículo com estes dados.");
+                return "store/cadastrar";
+            }
+
         }
     }
 
@@ -212,6 +243,38 @@ public class StoreController {
         else {
             return new ModelAndView("redirect:/veiculos");
         }
+    }
+
+    @GetMapping("/{id}/propostas")
+    public ModelAndView propostasPorVeiculo(@PathVariable("id") Long id) {
+        ModelAndView mv = new ModelAndView("proposta/propostasPorVeiculo");
+        Veiculo veic = iVeiculoDAO.getReferenceById(id);
+        List<Proposta> propostas = propostaDAO.findAllByVeiculo(veic);
+        if (propostas.size() > 0) {
+            mv.addObject("propostas", propostas);
+        } else {
+            mv.addObject("error", "Não há propostas para este veículo");
+            mv.setViewName("store/detalhes");
+            mv.addObject("veiculo", veic);
+        }
+        return mv;
+    }
+
+    @GetMapping("/proposta/{id}")
+    public ModelAndView formRespostaLoja(@PathVariable("id") Long id, Proposta proposta) {
+        ModelAndView mv = new ModelAndView("proposta/respostaProposta");
+        Proposta prop = propostaDAO.getReferenceById(id);
+        mv.addObject("proposta", prop);
+        return mv;
+    }
+
+    @PostMapping("/proposta/{id}")
+    public ModelAndView atualizaProposta(@PathVariable("id") Long id, Proposta proposta, String status) {
+        ModelAndView mv = new ModelAndView("redirect:/veiculos/" + id + "/propostas");
+        Proposta prop = propostaDAO.getReferenceById(id);
+        prop.setStatus(status);
+        propostaDAO.save(prop);
+        return mv;
     }
 
 }
